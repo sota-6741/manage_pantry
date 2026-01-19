@@ -9,29 +9,28 @@ class Item < ApplicationRecord
   validates :expiration_date, presence: true
   # 0以上の数値か？
   validates :quantity, numericality: {
-    only_integer: true,
     greater_than_or_equal_to: 0
   }
 
   # ビジネスロジック
   def expired?
     # 期限切れ判定
-    expiration_date < Date.today
+    expiration_date < Time.zone.today
   end
 
   def expired_soon?
     # 今日から3日以内に期限切れ
-    !expired? && expiration_date <= Date.today + 3.days
+    !expired? && expiration_date <= Time.zone.today + 3.days
   end
 
   def consume(amount)
     # 在庫の消費
-    update_quantity(-amount, :consume)
+    update_quantity(amount, :consume)
   end
 
   def dispose(amount)
     # 在庫の破棄
-    update_quantity(-amount, :dispose)
+    update_quantity(amount, :dispose)
   end
 
   def purchase(amount)
