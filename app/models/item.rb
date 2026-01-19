@@ -1,13 +1,13 @@
 class Item < ApplicationRecord
   belongs_to :category
-  has_many :InventoryLogs, dependent: :destroy
+  has_many :inventory_logs, dependent: :destroy
 
   # バリデーション
   # nullチェック
   validates :name, presence: true
   validates :quantity, presence: true
   validates :expiration_date, presence: true
-  # 0以上の数値である
+  # 0以上の数値か？
   validates :quantity, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0
@@ -43,7 +43,7 @@ class Item < ApplicationRecord
   private
   def update_quantity(amount, reason)
     # 在庫数の更新
-    raise ArgumentError, "数量は0より大きい数" if amount <= 0
+    raise ArgumentError, "数量は0以上の数値" if amount <= 0
 
     difference = case reason.to_sym
     when :purchase
