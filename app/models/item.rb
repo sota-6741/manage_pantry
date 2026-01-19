@@ -60,7 +60,7 @@ class Item < ApplicationRecord
     update!(quantity: quantity + difference)
     # TODO: 在庫変更の履歴を作成する
     true
-  rescue ActiveRecord::RecordInvalid ==> e
+  rescue ActiveRecord::RecordInvalid
     false
   end
 end
