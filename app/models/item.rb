@@ -27,13 +27,33 @@ class Item < ApplicationRecord
 
   def consume(amount)
     # 在庫の消費
-    # TODO: 在庫を減らす(privateメソッドで共通処理として実装したほうが良さそう)
-    # TODO: 履歴を作る(inventory_logsのメソッドを呼び出す)
+    update_quantity(-amount, :consume)
+  end
+
+  def dispose(amount)
+    # 在庫の破棄
+    update_quantity(-amount, :dispose)
   end
 
   def purchase(amount)
     # 在庫の追加
-    # TODO: 在庫を増やす(privateメソッドで共通処理として実装したほうが良さそう)
-    # TODO: 履歴を作る(inventory_logsのメソッドを呼び出す)
+    update_quantity(amount, :purchase)
+  end
+
+
+  private
+  def update_quantity(amount, reason)
+    # 在庫数の更新
+
+    # 0以下は無効
+    return false if amount <= 0
+    # 在庫不足は無効
+    return false if self.quantity + amount < 0
+
+    update!(quantity: self.quantity + amount)
+    # TODO: 在庫変更の履歴を作成する
+    true
+  rescue ActiveRecord::RecordInvalid
+    false
   end
 end
