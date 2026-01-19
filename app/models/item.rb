@@ -7,7 +7,6 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :quantity, presence: true
   validates :expiration_date, presence: true
-
   # 0以上の数値である
   validates :quantity, numericality: {
     only_integer: true,
@@ -44,16 +43,24 @@ class Item < ApplicationRecord
   private
   def update_quantity(amount, reason)
     # 在庫数の更新
+    raise ArgumentError, "数量は0より大きい数" if amount <= 0
 
-    # 0以下は無効
-    return false if amount <= 0
-    # 在庫不足は無効
-    return false if self.quantity + amount < 0
+    difference = case reason.to_sym
+    when :purchase
+      amount
+    when :consume, :dispose
+      -amount
+    else
+      raise ArgumentError, "不明な理由: #{reason}"
+    end
 
-    update!(quantity: self.quantity + amount)
+    # 在庫の不足チェック
+    return false if (quantity + difference) < 0
+
+    update!(quantity: quantity + difference)
     # TODO: 在庫変更の履歴を作成する
     true
-  rescue ActiveRecord::RecordInvalid
+  rescue ActiveRecord::RecordInvalid ==> e
     false
   end
 end
