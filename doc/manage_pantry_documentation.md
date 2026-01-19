@@ -112,8 +112,9 @@ erDiagram
         - expired?: 賞味期限切れか判定
         - near_expiration?: 賞味期限が近いか判定
         - purchase: 食材の購入
-        - consume 食材の消費
-        - dispose 食材の破棄
+        - consume: 食材の消費
+        - dispose: 食材の破棄
+        - update_quantity: 在庫を増減する共通処理
 
 - **InventoryLog**
     - 属性: id, item_id, change_amount, reason, created_at
