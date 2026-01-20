@@ -42,7 +42,7 @@ class Item < ApplicationRecord
   private
   def update_quantity(amount, reason)
     # 在庫数の更新
-    raise ArgumentError, "数量は0より大きい数値を入力してください" if amount <= 0
+    return add_error("数量は0より大きい数値を入力してください") if amount <= 0
 
     difference = case reason.to_sym
     when :purchase
@@ -54,7 +54,7 @@ class Item < ApplicationRecord
     end
 
     # 在庫の不足チェック
-    return false if (quantity + difference) < 0
+    return add_error("在庫が不足しています") if (quantity + difference) < 0
 
     # 値の更新
     update!(quantity: quantity + difference)
@@ -66,7 +66,12 @@ class Item < ApplicationRecord
 
     true
   rescue ActiveRecord::RecordInvalid => e
-    errors.add(:base, e.message)
+    add_error(e.message)
+    false
+  end
+
+  def add_error(message)
+    errors.add(:base, message)
     false
   end
 end
