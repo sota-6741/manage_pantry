@@ -56,4 +56,16 @@ class ItemsController < ApplicationController
     end
   end
 
+  def purchase
+    @item = Item.find(params[:id])
+
+    amount = params[:amount].to_i
+
+    if @item.purchase(amount)
+      redirect_to items_path, notice: "在庫を追加しました"
+    else
+      redirect_to items_path, alert: @item.errors.full_messages.to_sentence
+    end
+  end
+
 end
