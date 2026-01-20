@@ -68,4 +68,9 @@ class ItemsController < ApplicationController
     end
   end
 
+  private
+
+  def item_params
+    params.require(:item).permit(:name, :quantity, :expiration_date)
+  end
 end
