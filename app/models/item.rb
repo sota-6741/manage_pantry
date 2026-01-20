@@ -56,10 +56,17 @@ class Item < ApplicationRecord
     # 在庫の不足チェック
     return false if (quantity + difference) < 0
 
+    # 値の更新
     update!(quantity: quantity + difference)
-    # TODO: 在庫変更の履歴を作成する(一連の処理をサービスに切り出したほうがいいかも)
+    # inventory_logsの作成
+    inventory_logs.create!(
+      change_amount: difference,
+      reason: reason
+    )
+
     true
-  rescue ActiveRecord::RecordInvalid
+  rescue ActiveRecord::RecordInvalid => e
+    errors.add(:base, e.message)
     false
   end
 end
