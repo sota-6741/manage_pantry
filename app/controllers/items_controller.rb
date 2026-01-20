@@ -31,4 +31,17 @@ class ItemsController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
+
+  def consume
+    @item = Item.find(params[:id])
+
+    amount = params[:amount].to_i
+
+    if @item.consume(amount)
+      redirect_to items_path, notice: "在庫を消費しました"
+    else
+      redirect_to items_path, alert: @item.errors.full_messages.to_sentence
+    end
+  end
+
 end
