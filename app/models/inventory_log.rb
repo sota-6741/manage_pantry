@@ -8,8 +8,8 @@ class InventoryLog < ApplicationRecord
   validates :item_id, presence: true
   validates :change_amount, presence: true
   validates :reason, presence: true
-  # change_amountは0より大きい数値か？
-  validates :change_amount, numericality: { other_than: 0 }
+  # change_amountは符号付きの数値(そのほうが集計しやすいかも)
+  validates :change_amount, numericality: true
   # reasonはenumの値だけか？
   validates :reason, inclusion: { in: reasons.keys }
 end
