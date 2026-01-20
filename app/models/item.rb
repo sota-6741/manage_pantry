@@ -7,7 +7,7 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :quantity, presence: true
   validates :expiration_date, presence: true
-  # 0以上の数値か？
+  # 0以上の数値か？(在庫なしも管理したほうがいいかも)
   validates :quantity, numericality: {
     greater_than_or_equal_to: 0
   }
@@ -42,7 +42,7 @@ class Item < ApplicationRecord
   private
   def update_quantity(amount, reason)
     # 在庫数の更新
-    raise ArgumentError, "数量は0以上の数値" if amount <= 0
+    raise ArgumentError, "数量は0より大きい数値を入力してください" if amount <= 0
 
     difference = case reason.to_sym
     when :purchase
@@ -57,7 +57,7 @@ class Item < ApplicationRecord
     return false if (quantity + difference) < 0
 
     update!(quantity: quantity + difference)
-    # TODO: 在庫変更の履歴を作成する
+    # TODO: 在庫変更の履歴を作成する(一連の処理をサービスに切り出したほうがいいかも)
     true
   rescue ActiveRecord::RecordInvalid
     false
