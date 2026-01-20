@@ -44,4 +44,16 @@ class ItemsController < ApplicationController
     end
   end
 
+  def dispose
+    @item = Item.find(params[:id])
+
+    amount = params[:amount].to_i
+
+    if @item.dispose(amount)
+      redirect_to items_path, notice: "在庫を破棄しました"
+    else
+      redirect_to items_path, alert: @item.errors.full_messages.to_sentence
+    end
+  end
+
 end
