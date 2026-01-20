@@ -42,7 +42,8 @@ class Item < ApplicationRecord
   private
   def update_quantity(amount, reason)
     # 在庫数の更新
-    return add_error("数量は0より大きい数値を入力してください") if amount <= 0
+    return add_error("数量は数値で入力してください") unless amount.is_a?(Numeric)
+    return add_error("数量は0より大きい数値を入力してください") if amount <= 0 if amount <= 0
 
     difference = case reason.to_sym
     when :purchase
