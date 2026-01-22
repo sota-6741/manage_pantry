@@ -4,13 +4,13 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = Item.new(item_params)
+    @item = InventoryService.create_item(item_params)
 
-    if @item.save
-      # 成功した場合はUX的に新規作成画面にリダイレクトした方が使いやすいかも
+    # サービスが返したオブジェクトがDBに保存済み（＝成功）かチェック
+    if @item.persisted?
       redirect_to new_item_path, notice: "アイテムを追加しました"
     else
-      # 失敗したらパラメータを残して新規作成画面に戻す
+      # 失敗時はエラーの入った@itemを使い、新規作成画面を再描画
       render :new, status: :unprocessable_entity
     end
   end
@@ -34,10 +34,9 @@ class ItemsController < ApplicationController
 
   def consume
     @item = Item.find(params[:id])
-
     amount = params[:amount].to_i
 
-    if @item.consume(amount)
+    if InventoryService.change_quantity(item: @item, amount: amount, reason: :consume)
       redirect_to items_path, notice: "在庫を消費しました"
     else
       redirect_to items_path, alert: @item.errors.full_messages.to_sentence
@@ -46,10 +45,9 @@ class ItemsController < ApplicationController
 
   def dispose
     @item = Item.find(params[:id])
-
     amount = params[:amount].to_i
 
-    if @item.dispose(amount)
+    if InventoryService.change_quantity(item: @item, amount: amount, reason: :dispose)
       redirect_to items_path, notice: "在庫を破棄しました"
     else
       redirect_to items_path, alert: @item.errors.full_messages.to_sentence
@@ -58,10 +56,9 @@ class ItemsController < ApplicationController
 
   def purchase
     @item = Item.find(params[:id])
-
     amount = params[:amount].to_i
 
-    if @item.purchase(amount)
+    if InventoryService.change_quantity(item: @item, amount: amount, reason: :purchase)
       redirect_to items_path, notice: "在庫を追加しました"
     else
       redirect_to items_path, alert: @item.errors.full_messages.to_sentence
