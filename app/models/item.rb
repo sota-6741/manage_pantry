@@ -16,7 +16,6 @@ class Item < ApplicationRecord
     greater_than_or_equal_to: MIN_QUANTITY
   }
 
-  # ビジネスロジック
   def expired?
     # 期限切れ判定
     expiration_date < Time.zone.today
@@ -27,56 +26,19 @@ class Item < ApplicationRecord
     !expired? && expiration_date <= Time.zone.today + EXPIRED_SOON_DAYS.days
   end
 
-  def consume(amount)
-    # 在庫の消費
-    update_quantity(amount, :consume)
+  def has_stock?
+    quantity.positive?
   end
 
-  def dispose(amount)
-    # 在庫の破棄
-    update_quantity(amount, :dispose)
+  def can_change_quantity?(difference)
+    (quantity + difference) >= MIN_QUANTITY
   end
 
-  def purchase(amount)
-    # 在庫の追加
-    update_quantity(amount, :purchase)
+  def increase_stock!(amount)
+    update!(quantity: quantity + amount)
   end
 
-
-  private
-  def update_quantity(amount, reason)
-    # 在庫数の更新
-    return add_error("数量は数値で入力してください") unless amount.is_a?(Numeric)
-    return add_error("数量は0より大きい数値を入力してください") if amount <= MIN_OPERATION_AMOUNT - 1
-
-    difference = case reason.to_sym
-    when :purchase
-      amount
-    when :consume, :dispose
-      -amount
-    else
-      raise ArgumentError, "不明な理由: #{reason}"
-    end
-
-    # 在庫の不足チェック
-    return add_error("在庫が不足しています") if (quantity + difference) < MIN_QUANTITY
-
-    # 値の更新
-    update!(quantity: quantity + difference)
-    # inventory_logsの作成
-    inventory_logs.create!(
-      change_amount: difference,
-      reason: reason
-    )
-
-    true
-  rescue ActiveRecord::RecordInvalid => e
-    add_error(e.message)
-    false
-  end
-
-  def add_error(message)
-    errors.add(:base, message)
-    false
+  def decrease_stock!(amount)
+    update!(quantity: quantity - amount)
   end
 end
