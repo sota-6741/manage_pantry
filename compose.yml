@@ -24,7 +24,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: ${MYSQL_DB} # 環境変数から参照
+      MYSQL_DATABASE: ${MYSQL_DATABASE} # 環境変数から参照
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # 環境変数から参照
       TZ: "Asia/Tokyo"
     ports:
