@@ -1,7 +1,6 @@
 class InventoryLog < ApplicationRecord
+  include ReasonDefinition
   belongs_to :item
-
-  enum reason: { purchase: 0, consume: 1, dispose: 2 }
 
   # バリデーション
   # nullチェック
@@ -10,22 +9,23 @@ class InventoryLog < ApplicationRecord
   validates :reason, presence: true
   # change_amountは符号付きの数値(そのほうが集計しやすいかも)
   validates :change_amount, numericality: true
-  # reasonはenumの値だけか？
-  validates :reason, inclusion: { in: reasons.keys }
+  # reasonはReasonDefinition.REASONの値だけか？
+  validates :reason, inclusion: { in: ReasonDefinition.REASONS }
 
   def self.build(item:, amount:, reason:)
-    InventoryLog.create!(
+    InventoryLog.new(
       item: item,
-      change_amount: amount_for_log(amount, reason),
+      change_amount: signed_amount(amount, reason),
       reason: reason
     )
   end
 
-  private
-  def signed_amount(amount, reason)
+  def self.signed_amount(amount, reason)
     case reason.to_sym
     when :purchase then amount
     when :consume, :dispose then -amount
     end
   end
+
+  private_class_method :signed_amount
 end
