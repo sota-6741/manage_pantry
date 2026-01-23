@@ -32,4 +32,3 @@
 /config/*.key
 
 .DS_Store
-config/database.yml
