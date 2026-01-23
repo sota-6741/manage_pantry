@@ -1,6 +1,7 @@
 class InventoryLog < ApplicationRecord
-  include ReasonDefinition
   belongs_to :item
+
+  enum :reason, ReasonDefinition::REASONS
 
   # バリデーション
   # nullチェック
@@ -10,7 +11,7 @@ class InventoryLog < ApplicationRecord
   # change_amountは符号付きの数値(そのほうが集計しやすいかも)
   validates :change_amount, numericality: true
   # reasonはReasonDefinition.REASONの値だけか？
-  validates :reason, inclusion: { in: ReasonDefinition.REASONS }
+  validates :reason, inclusion: { in: ReasonDefinition::REASONS.map(&:to_s) }
 
   def self.build(item:, amount:, reason:)
     InventoryLog.new(
