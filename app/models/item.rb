@@ -34,23 +34,4 @@ class Item < ApplicationRecord
   def can_change_quantity?(delta)
     (quantity + delta) >= MIN_QUANTITY
   end
-
-  # 在庫変更メソッド
-  def change_quantity!(amount:, reason:)
-    delta_amount = delta(amount, reason)
-
-    errors.add(:base, "在庫が不足しています") if can_change_quantity?(delta_amount)
-
-    update!(quantity: new_quantity)
-  end
-
-  private
-  def delta(amount:, reason:)
-    case reason.to_sym
-    when :purchase then amount
-    when :dispose, :consume then -amount
-    else
-      errors.add(:reason, "が不適切です #{:reason}")
-    end
-  end
 end
