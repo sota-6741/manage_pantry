@@ -12,4 +12,20 @@ class InventoryLog < ApplicationRecord
   validates :change_amount, numericality: true
   # reasonはenumの値だけか？
   validates :reason, inclusion: { in: reasons.keys }
+
+  def self.build(item:, amount:, reason:)
+    InventoryLog.create!(
+      item: item,
+      change_amount: amount_for_log(amount, reason),
+      reason: reason
+    )
+  end
+
+  private
+  def signed_amount(amount, reason)
+    case reason.to_sym
+    when :purchase then amount
+    when :consume, :dispose then -amount
+    end
+  end
 end
