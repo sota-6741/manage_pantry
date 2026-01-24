@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_19_081648) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_24_061530) do
   create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
@@ -22,7 +22,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_19_081648) do
     t.decimal "change_amount", precision: 10
     t.datetime "created_at", null: false
     t.bigint "item_id", null: false
-    t.integer "reason"
+    t.string "reason", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_inventory_logs_on_item_id"
   end
