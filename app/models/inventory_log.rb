@@ -12,12 +12,11 @@ class InventoryLog < ApplicationRecord
   validates :reason, inclusion: { in: InventoryReason::VALID_REASONS.map(&:to_s) }
 
   def self.build(item:, amount:, reason_key:)
-    # InventoryReason のインスタンスを生成して delta を計算
-    reason_vo = InventoryReason.new(reason_key)
-    InventoryLog.new(
+    inventory_reason = InventoryReason.new(reason_key)
+    new(
       item: item,
-      change_amount: reason_vo.delta(amount),
-      reason: reason_vo.to_s # to_s で文字列としてDBに保存
+      change_amount: inventory_reason.delta(amount),
+      reason: inventory_reason.to_s
     )
   end
 
@@ -31,6 +30,6 @@ class InventoryLog < ApplicationRecord
 
   # インスタンスから InventoryReason ValueObject を取得するヘルパーメソッド
   def inventory_reason
-    @_inventory_reason ||= InventoryReason.new(reason)
+    InventoryReason.new(reason)
   end
 end
