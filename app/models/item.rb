@@ -1,5 +1,5 @@
 class Item < ApplicationRecord
-  belongs_to :category
+  belongs_to :category, optional: true
   has_many :inventory_logs, dependent: :destroy
 
   EXPIRED_SOON_DAYS = 3
@@ -31,7 +31,24 @@ class Item < ApplicationRecord
     quantity.positive?
   end
 
-  def can_change_quantity?(delta)
-    (quantity + delta) >= MIN_QUANTITY
+  def apply_inventory_change!(delta)
+    raise StandardError, "在庫不足" if quantity + delta < MIN_QUANTITY
+    self.quantity += delta
+    self
+  end
+
+  def update_stock!(delta)
+    apply_inventory_change!(delta)
+    save!
+  end
+
+  class << self
+    def register(params)
+      create!(params)
+    end
+
+    def fetch(id)
+      find(id)
+    end
   end
 end
