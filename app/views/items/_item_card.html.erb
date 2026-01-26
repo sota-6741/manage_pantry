@@ -26,7 +26,7 @@
         </div>
 
         <div class="item-card-flex-center-gap-sm">
-          <%= button_to change_stock_item_path(item, item: { amount: 1, reason: "add" }), method: :patch, class: "item-card-btn" do %>
+          <%= button_to change_stock_item_path(item, item: { amount: 1, reason: "purchase" }), method: :patch, class: "item-card-btn" do %>
             <%= image_tag 'edit_icon.png', size: '16x16', class: 'object-contain', alt: '編集' %>
             <span>変更</span>
           <% end %>
