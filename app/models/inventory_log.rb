@@ -3,7 +3,7 @@ class InventoryLog < ApplicationRecord
 
   # バリデーション
   validates :change_amount, presence: true, numericality: true
-  validates :reason, presence: true, inclusion: { in: InventoryReason::VALID_REASONS.map(&:to_s) }
+  validates :reason, presence: true, inclusion: { in: InventoryReasonDelta::VALID_REASONS.map(&:to_s) }
 
   def self.record(item:, delta:, reason_key:)
     create!(
@@ -13,8 +13,8 @@ class InventoryLog < ApplicationRecord
     )
   end
 
-  # インスタンスから InventoryReason ValueObject を取得するヘルパーメソッド
-  def inventory_reason
-    InventoryReason.new(reason)
+  # インスタンスから InventoryReasonDelta ValueObject を取得するヘルパーメソッド
+  def inventory_reason_delta
+    InventoryReasonDelta.new(reason)
   end
 end
