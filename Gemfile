@@ -50,3 +50,7 @@ group :development, :test do
 
   gem "rubocop", require: false
 end
+
+gem "tailwindcss-rails", "~> 4.4"
+
+gem "sprockets-rails"
