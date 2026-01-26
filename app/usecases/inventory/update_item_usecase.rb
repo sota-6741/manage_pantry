@@ -4,7 +4,7 @@ class UpdateItemUsecase
   end
 
   def call(item_id, params)
-    @item_model.update(item_id, params)
+    item = @item_model.update(item_id, params)
     item
   end
 end

@@ -56,7 +56,7 @@ class Item < ApplicationRecord
       item.destroy!
     end
 
-    def udpate(id, params)
+    def update(id, params)
       item = fetch(id)
       item.update!(params)
     end
