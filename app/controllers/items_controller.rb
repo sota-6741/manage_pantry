@@ -1,11 +1,14 @@
 class ItemsController < ApplicationController
   def index
-    usecase = Inventory::ListItemsUsecase.new
-    @items = usecase.call
+    items_usecase = InventoryUsecases::ListItemsUsecase.new
+    @items = items_usecase.call(category_id: params[:category_id])
+
+    categories_usecase = CategoryUsecases::ListCategoryUsecase.new
+    @categories = categories_usecase.call
   end
 
   def create
-    usecase = Inventory::CreateItemUsecase.new
+    usecase = InventoryUsecases::CreateItemUsecase.new
     @item = usecase.call(item_params)
     redirect_to new_item_path, notice: "アイテムを追加しました"
   rescue ActiveRecord::RecordInvalid => e
@@ -15,7 +18,7 @@ class ItemsController < ApplicationController
   end
 
   def update
-    usecase = UpdateItemUsecase.new
+    usecase = InventoryUsecases::UpdateItemUsecase.new
     @item = usecase.call(params[:id], item_update_params)
     redirect_to items_path, notice: "アイテムを更新しました"
   rescue ActiveRecord::RecordInvalid => e
@@ -24,14 +27,14 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    usecase = DeleteItemUsecase.new
+    usecase = InventoryUsecases::DeleteItemUsecase.new
     @item = usecase.call(params[:id])
     redirect_to items_path, notice: "アイテムを削除しました"
   end
 
 
   def change_stock
-    usecase = Inventory::ChangeStockUsecase.new
+    usecase = InventoryUsecases::ChangeStockUsecase.new
     @item = usecase.call(
       item_id: params[:id],
       amount: change_stock_params[:amount].to_i,
