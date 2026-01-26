@@ -31,9 +31,4 @@ class InventoryReason
   def ==(other)
     other.is_a?(self.class) && reason_key == other.reason_key
   end
-  alias_method :eql?, :==
-
-  def hash
-    reason_key.hash
-  end
 end
