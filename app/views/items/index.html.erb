@@ -1,0 +1,49 @@
+<div class="items-bg">
+  <%# ヘッダー %>
+  <header class="items-header">
+    <div>
+      <h1 class="items-header-title">Manage Pantory</h1>
+      <p class="items-header-desc">家の食材在庫管理</p>
+    </div>
+  </header>
+
+  <%# カテゴリー管理とアイテム一覧 %>
+  <div class="items-form-section">
+    <%= form_tag items_path, method: :get, class: "items-form" do %>
+      <%# カテゴリー選択プルダウンメニュー %>
+      <div class="items-select-row">
+        <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id]), 
+            include_blank: "すべてのカテゴリー", 
+            class: "items-select",
+            onchange: "this.form.submit();" %>
+      </div>
+      <%# カテゴリー追加ボタン %>
+      <button type="button" class="items-btn">
+        <%= image_tag 'add_icon.png', size: '20x20', class: 'object-contain', alt: '追加' %>
+        <span>カテゴリー追加</span>
+      </button>
+    <% end %>
+    <%# アイテム追加ボタン %>
+    <div class="items-add-btn-row">
+      <%= link_to new_item_path, class: "items-add-btn" do %>
+        <%= image_tag 'add_icon.png', size: '20x20', class: 'object-contain', alt: '追加' %>
+        <span>アイテム追加</span>
+      <% end %>
+    </div>
+  </div>
+
+  <%# アイテムリストセクション %>
+  <div class="items-list-section">
+    <% if @items.any? %>
+      <div class="items-list">
+        <% @items.each do |item| %>
+          <%= render partial: "items/item_card", locals: { item: item, highlight: item.expired_soon? } %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="items-empty">
+        <p class="items-empty-text">アイテムがありません</p>
+      </div>
+    <% end %>
+  </div>
+</div>

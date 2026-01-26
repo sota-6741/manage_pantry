@@ -1,0 +1,43 @@
+<div class="item-card">
+  <div class="item-card-inner<%= highlight ? ' highlight' : '' %>">
+
+    <%# アイテム名 %>
+    <div class="item-card-flex-between">
+      <h3 class="item-card-title"><%= item.name %></h3>
+    </div>
+
+    <%# 詳細情報 %>
+    <div class="item-card-flex-col-gap">
+      <%# カテゴリー %>
+      <div class="item-card-flex-center-gap">
+        <%= image_tag 'tag_icon.png', size: '16x16', class: 'object-contain', alt: 'カテゴリー' %>
+        <span class="item-card-category">
+          <%= item.category&.name || "未分類" %>
+        </span>
+      </div>
+
+      <%# ストック数 %>
+      <div class="item-card-stock-row">
+        <div class="item-card-flex-center-gap-shrink">
+          <%= image_tag 'stock_icon.png', size: '20x20', class: 'object-contain', alt: '在庫' %>
+          <span class="item-card-stock-qty">
+            <%= item.quantity % 1 == 0 ? item.quantity.to_i : item.quantity %>
+          </span>
+        </div>
+
+        <div class="item-card-flex-center-gap-sm">
+          <%= button_to change_stock_item_path(item, item: { amount: 1, reason: "add" }), method: :patch, class: "item-card-btn" do %>
+            <%= image_tag 'edit_icon.png', size: '16x16', class: 'object-contain', alt: '編集' %>
+            <span>変更</span>
+          <% end %>
+        </div>
+      </div>
+
+      <%# 賞味期限 %>
+      <div class="item-card-flex-center-gap">
+        <%= image_tag 'expiration_date_icon.png', size: '16x16', class: 'object-contain', alt: '期限' %>
+        <span class="item-card-exp<%= highlight ? ' highlight' : '' %>"><%= item.expiration_date.strftime("%Y-%m-%d") %></span>
+      </div>
+    </div>
+  </div>
+</div>
