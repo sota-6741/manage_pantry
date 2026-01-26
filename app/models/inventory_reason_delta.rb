@@ -1,4 +1,4 @@
-class InventoryReason
+class InventoryReasonDelta
   attr_reader :reason_key
 
   # 理由と符号（係数）の定義を一元管理
