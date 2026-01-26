@@ -38,7 +38,7 @@ erDiagram
         bigint id PK
         bigint item_id FK
         decimal change_amount "在庫変動量（+購入 / -消費・廃棄）"
-        integer reason "理由（0:購入, 1:消費, 2:廃棄）"
+        string reason "理由（purchase, consume, disposeなどのシンボル文字列）"
         datetime created_at
     }
 ```
@@ -111,19 +111,27 @@ erDiagram
     - 主なメソッド:
         - expired?: 賞味期限切れか判定
         - near_expiration?: 賞味期限が近いか判定
-        - purchase: 食材の購入
-        - consume: 食材の消費
-        - dispose: 食材の破棄
-        - update_quantity: 在庫を増減する共通処理
+        - update_stock!(delta): 在庫を増減する（負の値も許容）
 
 - **InventoryLog**
     - 属性: id, item_id, change_amount, reason, created_at
     - 関連: belongs_to :item
+    - 主なメソッド:
+        - self.record(item:, delta:, reason_key:): 在庫変動を記録する
+        - inventory_reason_delta: InventoryReasonDelta ValueObjectを取得する
+
+- **InventoryReasonDelta**
+    - 属性: reason_key (purchase, consume, dispose)
+    - 役割: 在庫変動の理由を表すValue Object。理由に応じた在庫変動量（delta）を計算する。
 
 ### コントローラー
 - **CategoriesController**: カテゴリーのCRUD
 - **ItemsController**: 食材のCRUD、賞味期限アラート、カテゴリー絞り込み
 - **InventoryLogsController**: 在庫変動の記録・履歴表示
+
+### ユースケース
+- **Inventory::ChangeStockUsecase**
+    - 役割: 食材の在庫を変動させるビジネスロジックをカプセル化する。在庫変動量の計算、在庫の更新、在庫ログの記録を行う。
 
 ### サービス・その他（必要に応じて）
 - 賞味期限アラート判定サービス
