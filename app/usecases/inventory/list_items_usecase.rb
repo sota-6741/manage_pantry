@@ -1,4 +1,3 @@
-# app/usecases/inventory/list_items_usecase.rb
 module Inventory
   class ListItemsUsecase
     def initialize(item_model: Item)
