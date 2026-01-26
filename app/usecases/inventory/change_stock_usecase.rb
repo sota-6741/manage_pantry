@@ -7,8 +7,8 @@ module Inventory
 
     def call(item_id:, amount:, reason_key:)
       item = @item_model.fetch(item_id)
-      reason_vo = InventoryReason.new(reason_key) # InventoryReason のインスタンスを生成
-      delta = reason_vo.delta(amount)             # インスタンスメソッドを呼び出す
+      inventory_reason = InventoryReasonDelta.new(reason_key)
+      delta = inventory_reason.delta(amount)
 
       ActiveRecord::Base.transaction do
         item.update_stock!(delta)

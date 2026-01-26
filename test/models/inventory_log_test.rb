@@ -13,10 +13,10 @@ class InventoryLogTest < ActiveSupport::TestCase
     assert_includes log.errors[:reason], "can't be blank"
   end
 
-  test "inventory_reason: reasonカラムからInventoryReasonオブジェクトを取得できる" do
+  test "inventory_reason_delta: reasonカラムからInventoryReasonDeltaオブジェクトを取得できる" do
     log = InventoryLog.new(reason: "purchase")
-    assert_instance_of InventoryReason, log.inventory_reason
-    assert_equal :purchase, log.inventory_reason.reason_key
+    assert_instance_of InventoryReasonDelta, log.inventory_reason_delta
+    assert_equal :purchase, log.inventory_reason_delta.reason_key
   end
 
   test "record: ログを保存できる" do
@@ -28,6 +28,6 @@ class InventoryLogTest < ActiveSupport::TestCase
     assert_equal @item, log.item
     assert_equal(-5, log.change_amount)
     assert_equal "consume", log.reason
-    assert_equal :consume, log.inventory_reason.reason_key
+    assert_equal :consume, log.inventory_reason_delta.reason_key
   end
 end
