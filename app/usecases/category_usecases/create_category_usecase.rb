@@ -1,4 +1,4 @@
-module Category
+module CategoryUsecases
   class CreateCategoryUsecase
     def initialize(category_model: Category)
       @category_model = category_model

@@ -1,4 +1,4 @@
-module Inventory
+module InventoryUsecases
   class DeleteItemUsecase
     def initialize(item_model: Item)
       @item_model = item_model

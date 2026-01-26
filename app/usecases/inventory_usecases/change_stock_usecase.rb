@@ -1,4 +1,4 @@
-module Inventory
+module InventoryUsecases
   class ChangeStockUsecase
     def initialize(item_model: Item, inventory_log_model: InventoryLog)
       @item_model = item_model
