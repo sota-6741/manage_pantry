@@ -50,5 +50,10 @@ class Item < ApplicationRecord
     def fetch(id)
       find(id)
     end
+
+    def near_expiration_items
+      where("expiration_date <= ?", Time.zone.today + EXPIRED_SOON_DAYS.days)
+        .where("expiration_date >= ?", Time.zone.today)
+    end
   end
 end

@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   def index
-    @items = Item.all
+    usecase = Inventory::ListItemsUsecase.new
+    @items = usecase.call
   end
 
   def create
