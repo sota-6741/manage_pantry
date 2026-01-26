@@ -1,10 +1,11 @@
-class DeleteItemUsecase
-  def initialize(item: Item)
-    @item = item # item_model から item に変更
-  end
+module Inventory
+  class DeleteItemUsecase
+    def initialize(item_model: Item)
+      @item_model = item_model
+    end
 
-  def call(item_id)
-    item = @item.find(item_id)
-    item.destroy! # destory! から destroy! に変更
+    def call(item_id)
+      @item_model.destroy(item_id)
+    end
   end
 end

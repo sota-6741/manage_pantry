@@ -51,6 +51,12 @@ class Item < ApplicationRecord
       find(id)
     end
 
+    def destroy(id)
+      item = fetch(id)
+      item.destroy!
+    end
+
+
     def near_expiration_items
       where("expiration_date <= ?", Time.zone.today + EXPIRED_SOON_DAYS.days)
         .where("expiration_date >= ?", Time.zone.today)
