@@ -1,0 +1,110 @@
+.items-bg {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #f0fdf4, #fff);
+}
+.items-header {
+  padding: 2rem 1rem 1.5rem 1rem;
+}
+.items-header-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.875rem;
+  font-weight: 500;
+  font-family: 'Outfit', sans-serif;
+  color: #15803d;
+  letter-spacing: -0.025em;
+}
+.items-header-desc {
+  font-size: 1rem;
+  color: #52525b;
+  font-family: sans-serif;
+}
+.items-form-section {
+  padding: 0 1rem;
+  margin-bottom: 2rem;
+}
+.items-form {
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px 0 #0001, 0 1px 2px -1px #0001;
+  border: 1px solid #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.items-select-row {
+  position: relative;
+  width: 100%;
+  height: 2.5rem;
+}
+.items-select {
+  width: 100%;
+  height: 2.5rem;
+  background: #fff;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  padding: 0 0.75rem;
+  color: #18181b;
+  font-size: 1rem;
+  font-family: sans-serif;
+  outline: none;
+}
+.items-btn {
+  width: 100%;
+  height: 2.5rem;
+  background: #22c55e;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 1px 3px 0 #0001, 0 1px 2px -1px #0001;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: sans-serif;
+  transition: transform 0.15s cubic-bezier(.4,0,.2,1);
+}
+.items-btn:active {
+  transform: scale(0.95);
+}
+.items-add-btn-row {
+  display: flex;
+}
+.items-add-btn {
+  height: 2.5rem;
+  padding: 0 1.5rem;
+  background: #22c55e;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 1px 3px 0 #0001, 0 1px 2px -1px #0001;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: sans-serif;
+  transition: transform 0.15s cubic-bezier(.4,0,.2,1);
+}
+.items-add-btn:active {
+  transform: scale(0.95);
+}
+.items-list-section {
+  padding: 0 1rem 2.5rem 1rem;
+}
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.items-empty {
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  text-align: center;
+  border: 1px dashed #e5e7eb;
+}
+.items-empty-text {
+  color: #a3a3a3;
+  font-family: sans-serif;
+}
