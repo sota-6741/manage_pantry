@@ -56,6 +56,10 @@ class Item < ApplicationRecord
       item.destroy!
     end
 
+    def udpate(id, params)
+      item = fetch(id)
+      item.update!(params)
+    end
 
     def near_expiration_items
       where("expiration_date <= ?", Time.zone.today + EXPIRED_SOON_DAYS.days)
