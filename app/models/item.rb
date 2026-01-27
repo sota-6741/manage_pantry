@@ -42,23 +42,15 @@ class Item < ApplicationRecord
     save!
   end
 
+  def display_quantity
+    quantity % 1 == 0 ? quantity.to_i : quantity
+  end
+
   class << self
-    def register(params)
-      create!(params)
-    end
-
-    def fetch(id)
-      find(id)
-    end
-
-    def destroy(id)
-      item = fetch(id)
-      item.destroy!
-    end
-
-    def update(id, params)
-      item = fetch(id)
-      item.update!(params)
+    def ordered_by_urgency
+      near_expiration = near_expiration_items
+      other = where.not(id: near_expiration.select(:id))
+      near_expiration + other
     end
 
     def near_expiration_items

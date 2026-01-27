@@ -4,6 +4,7 @@ module InventoryUsecases
       @item_model = item_model
       @category_model = category_model
     end
+
     def call(category_id: nil)
       base_scope = if category_id.present?
         @item_model.where(category_id: category_id)
@@ -11,10 +12,7 @@ module InventoryUsecases
         @item_model.all
       end
 
-      near_expiration_items = base_scope.near_expiration_items.includes(:category, :inventory_logs)
-      other_items = base_scope.where.not(id: near_expiration_items.select(:id)).includes(:category, :inventory_logs)
-
-      near_expiration_items + other_items
+      base_scope.includes(:category, :inventory_logs).ordered_by_urgency
     end
   end
 end

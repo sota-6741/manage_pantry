@@ -21,7 +21,7 @@
         <div class="item-card-flex-center-gap-shrink">
           <%= image_tag 'stock_icon.png', size: '20x20', class: 'object-contain', alt: '在庫' %>
           <span class="item-card-stock-qty">
-            <%= item.quantity % 1 == 0 ? item.quantity.to_i : item.quantity %>
+            <%= item.display_quantity %>
           </span>
         </div>
 
