@@ -32,21 +32,6 @@ class ItemsController < ApplicationController
     redirect_to items_path, notice: "アイテムを削除しました"
   end
 
-
-  def change_stock
-    usecase = InventoryUsecases::ChangeStockUsecase.new
-    @item = usecase.call(
-      item_id: params[:id],
-      amount: change_stock_params[:amount].to_i,
-      reason_key: change_stock_params[:reason]
-    )
-    redirect_to items_path, notice: "アイテムの在庫数を変更しました"
-  rescue StandardError => e
-    @item = Item.find(params[:id])
-    flash.now[:alert] = e.message
-    render :change_stock, status: :unprocessable_entity
-  end
-
   private
 
   def item_params
@@ -55,9 +40,5 @@ class ItemsController < ApplicationController
 
   def item_update_params
     params.require(:item).permit(:name, :expiration_date)
-  end
-
-  def change_stock_params
-    params.require(:item).permit(:amount, :reason)
   end
 end

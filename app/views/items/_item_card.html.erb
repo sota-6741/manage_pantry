@@ -26,7 +26,7 @@
         </div>
 
         <div class="flex items-center gap-1">
-          <%= button_to change_stock_item_path(item, item: { amount: 1, reason: "purchase" }), method: :patch, class: "h-8 px-3 bg-green-500 rounded-lg flex items-center gap-1 shadow-sm active:scale-95 transition-transform text-white text-sm font-medium font-sans cursor-pointer border-none" do %>
+          <%= button_to item_stock_adjustments_path(item, stock_adjustment: { amount: 1, reason: "purchase" }), method: :post, class: "h-8 px-3 bg-green-500 rounded-lg flex items-center gap-1 shadow-sm active:scale-95 transition-transform text-white text-sm font-medium font-sans cursor-pointer border-none" do %>
             <%= image_tag 'edit_icon.png', size: '16x16', class: 'object-contain', alt: '編集' %>
             <span>変更</span>
           <% end %>

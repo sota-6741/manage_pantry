@@ -9,8 +9,7 @@ Rails.application.routes.draw do
   root "items#index"
 
   resources :items do
-    member do
-      patch :change_stock
-    end
+    resources :stock_adjustments, only: [:create]
+    resources :inventory_logs, only: [:index]
   end
 end
