@@ -7,7 +7,7 @@ module InventoryUsecases
 
     def call(params)
       ActiveRecord::Base.transaction do
-        item = @item_model.register(params)
+        item = @item_model.create!(params)
         @inventory_log_model.record(item: item, delta: item.quantity, reason_key: :purchase)
         item
       end

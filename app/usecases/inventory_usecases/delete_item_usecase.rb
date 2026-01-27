@@ -5,7 +5,8 @@ module InventoryUsecases
     end
 
     def call(item_id)
-      @item_model.destroy(item_id)
+      item = @item_model.find(item_id)
+      item.destroy!
     end
   end
 end

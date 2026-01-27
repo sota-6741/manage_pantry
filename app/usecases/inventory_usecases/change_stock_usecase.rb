@@ -6,7 +6,7 @@ module InventoryUsecases
     end
 
     def call(item_id:, amount:, reason_key:)
-      item = @item_model.fetch(item_id)
+      item = @item_model.find(item_id)
       inventory_reason = InventoryReasonDelta.new(reason_key)
       delta = inventory_reason.delta(amount)
 
