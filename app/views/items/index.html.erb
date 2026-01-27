@@ -1,31 +1,31 @@
-<div class="items-bg">
+<div class="min-h-screen bg-gradient-to-br from-green-50 to-white">
   <%# ヘッダー %>
-  <header class="items-header">
+  <header class="px-4 pt-8 pb-6">
     <div>
-      <h1 class="items-header-title">Manage Pantory</h1>
-      <p class="items-header-desc">家の食材在庫管理</p>
+      <h1 class="mb-2 text-3xl font-medium font-['Outfit'] tracking-tight text-green-700">Manage Pantory</h1>
+      <p class="text-base text-zinc-600 font-sans">家の食材在庫管理</p>
     </div>
   </header>
 
   <%# カテゴリー管理とアイテム一覧 %>
-  <div class="items-form-section">
-    <%= form_tag items_path, method: :get, class: "items-form" do %>
+  <div class="px-4 mb-8">
+    <%= form_tag items_path, method: :get, class: "bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col gap-3" do %>
       <%# カテゴリー選択プルダウンメニュー %>
-      <div class="items-select-row">
+      <div class="relative w-full h-10">
         <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id]), 
             include_blank: "すべてのカテゴリー", 
-            class: "items-select",
+            class: "w-full h-10 bg-white rounded-lg border border-gray-200 px-3 text-zinc-900 text-base font-sans focus:outline-none focus:ring-2 focus:ring-green-500",
             onchange: "this.form.submit();" %>
       </div>
       <%# カテゴリー追加ボタン %>
-      <button type="button" class="items-btn">
+      <button type="button" class="w-full h-10 bg-green-500 rounded-lg flex items-center justify-center gap-2 shadow-sm text-white text-base font-medium font-sans transition active:scale-95 hover:bg-green-600">
         <%= image_tag 'add_icon.png', size: '20x20', class: 'object-contain', alt: '追加' %>
         <span>カテゴリー追加</span>
       </button>
     <% end %>
     <%# アイテム追加ボタン %>
-    <div class="items-add-btn-row">
-      <%= link_to new_item_path, class: "items-add-btn" do %>
+    <div class="flex mt-3">
+      <%= link_to new_item_path, class: "h-10 px-6 bg-green-500 rounded-lg flex items-center gap-2 shadow-sm text-white text-base font-medium font-sans transition active:scale-95 hover:bg-green-600" do %>
         <%= image_tag 'add_icon.png', size: '20x20', class: 'object-contain', alt: '追加' %>
         <span>アイテム追加</span>
       <% end %>
@@ -33,16 +33,16 @@
   </div>
 
   <%# アイテムリストセクション %>
-  <div class="items-list-section">
+  <div class="px-4 pb-10">
     <% if @items.any? %>
-      <div class="items-list">
+      <div class="flex flex-col gap-4">
         <% @items.each do |item| %>
           <%= render partial: "items/item_card", locals: { item: item, highlight: item.expired_soon? } %>
         <% end %>
       </div>
     <% else %>
-      <div class="items-empty">
-        <p class="items-empty-text">アイテムがありません</p>
+      <div class="bg-white rounded-xl p-8 text-center border border-dashed border-gray-200">
+        <p class="text-neutral-400 font-sans">アイテムがありません</p>
       </div>
     <% end %>
   </div>
