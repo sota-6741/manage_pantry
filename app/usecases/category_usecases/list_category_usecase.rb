@@ -5,7 +5,7 @@ module CategoryUsecases
     end
 
     def call
-      categories = @category_model.all_fetch
+      categories = @category_model.all
       categories
     end
   end

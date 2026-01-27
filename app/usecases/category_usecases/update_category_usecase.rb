@@ -5,7 +5,8 @@ module CategoryUsecases
     end
 
     def call(category_id, params)
-      category = @category_model.update(category_id, params)
+      category = @category_model.find(category_id)
+      category.update!(params)
       category
     end
   end

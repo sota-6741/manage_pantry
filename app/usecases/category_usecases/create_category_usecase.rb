@@ -5,7 +5,7 @@ module CategoryUsecases
     end
 
     def call(params)
-      category = @category_model.register(params)
+      category = @category_model.create!(params)
       category
     end
   end

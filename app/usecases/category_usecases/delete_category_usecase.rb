@@ -5,7 +5,8 @@ module CategoryUsecases
     end
 
     def call(category_id)
-      @category_model.destroy(category_id)
+      category = @category_model.find(category_id)
+      category.destroy!
     end
   end
 end
