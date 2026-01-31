@@ -42,10 +42,6 @@ class Item < ApplicationRecord
     save!
   end
 
-  def display_quantity
-    quantity % 1 == 0 ? quantity.to_i : quantity
-  end
-
   class << self
     def ordered_by_urgency
       near_expiration = near_expiration_items
