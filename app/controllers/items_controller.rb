@@ -7,6 +7,12 @@ class ItemsController < ApplicationController
     @categories = categories_usecase.call
   end
 
+  def new
+    @item = Item.new
+    categories_usecase = CategoryUsecases::ListCategoryUsecase.new
+    @categories = categories_usecase.call
+  end
+
   def create
     usecase = InventoryUsecases::CreateItemUsecase.new
     @item = usecase.call(item_params)
