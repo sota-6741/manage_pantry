@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   root "items#index"
 
   resources :items do
-    resources :stock_adjustments, only: [:create]
+    resources :stock_adjustments, only: [:new, :create]
     resources :inventory_logs, only: [:index]
   end
 end
