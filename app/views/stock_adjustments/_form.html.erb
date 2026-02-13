@@ -1,89 +1,35 @@
 <%= turbo_frame_tag dom_id(item, :adjustment) do %>
-  <%# 調整フォームエリア (Figmaベースのコード) %>
-  <%= form_with scope: :stock_adjustment, url: item_stock_adjustments_path(item), method: :post, data: { turbo_frame: "_top" }, class: "w-full" do |f| %>
-    <div class="w-full px-3 pt-3 pb-3 bg-green-50 rounded-[10px] flex flex-col justify-start items-start gap-3">
-        <%# Row 1: Preview %>
-        <div class="w-full h-7 relative">
-            <div class="left-[63px] top-[6px] absolute text-center text-gray-600 text-sm font-normal font-['Inter'] leading-5">現在:</div>
-            <div class="left-[97px] top-[3px] absolute inline-flex">
-                <div class="text-center text-gray-600 text-lg font-bold font-['Inter'] leading-7"><%= display_quantity(item.quantity) %></div>
-            </div>
-            <div class="left-[113px] top-[6px] absolute text-center text-gray-600 text-sm font-normal font-['Inter'] leading-5">→ 変更後:</div>
-            <div class="left-[179px] top-[3px] absolute inline-flex">
-                <div id="<%= dom_id(item, :preview) %>" class="text-center text-gray-600 text-lg font-bold font-['Inter'] leading-7"><%= display_quantity(item.quantity + 2) %></div>
-            </div>
-        </div>
+  <%= form_with(scope: :stock_adjustment, url: item_stock_adjustments_path(item), method: :post) do |f| %>
 
-        <%# Row 2: Quantity %>
-        <div class="w-full h-12 inline-flex justify-center items-center gap-2">
-            <button type="button" data-action="dec" class="w-12 h-12 bg-red-500 rounded-[10px] flex justify-center items-center hover:opacity-90 active:scale-95 transition border-none cursor-pointer">
-                <%= image_tag 'minus_icon_white.png', size: '24x24', class: 'brightness-0 invert' %>
-            </button>
-            <div class="flex-1 h-12 rounded-[10px] outline outline-[1.58px] outline-offset-[-1.58px] outline-gray-300 flex justify-center items-center overflow-hidden bg-white">
-                <%= f.number_field :amount, value: 2, readonly: true, class: "text-center text-neutral-950 text-2xl font-bold font-['Inter'] border-none focus:ring-0 p-0 w-full bg-transparent", id: dom_id(item, :amount) %>
-            </div>
-            <button type="button" data-action="inc" class="w-12 h-12 bg-green-500 rounded-[10px] flex justify-center items-center hover:opacity-90 active:scale-95 transition border-none cursor-pointer">
-                <%= image_tag 'plus_icon_white.png', size: '24x24', class: 'brightness-0 invert' %>
-            </button>
-        </div>
+    <%# エラーメッセージ表示 %>
+    <% if local_assigns.has_key?(:error_message) && error_message.present? %>
+      <div style="color: red; margin-bottom: 10px;">
+        <strong>エラー:</strong> <%= error_message %>
+      </div>
+    <% end %>
 
-        <%# Row 3: Reasons %>
-        <div class="w-full h-9 inline-flex justify-start items-start gap-2">
-            <% [["purchase", "購入", "cart_icon_white.png"], ["consume", "消費", "utensils_icon_gray.png"], ["discard", "破棄", "trash_icon_gray.png"]].each do |val, label, icon| %>
-              <label class="cursor-pointer">
-                <%= f.radio_button :reason, val, class: "peer hidden", checked: val == "purchase" %>
-                <div class="h-9 rounded-[10px] flex justify-center items-center gap-2 transition
-                            bg-white outline outline-[0.53px] outline-offset-[-0.53px] outline-gray-300 text-gray-700
-                            peer-checked:bg-green-500 peer-checked:outline-none peer-checked:text-white">
-                    <%= image_tag icon, size: '16x16', class: 'transition filter peer-checked:brightness-0 peer-checked:invert' %>
-                    <div class="text-center text-sm font-medium font-['Inter'] leading-5"><%= label %></div>
-                </div>
-              </label>
-            <% end %>
-        </div>
+    <%# 理由選択 %>
+    <div style="margin-bottom: 12px;">
+      <%= f.radio_button :reason, 'purchase', checked: true %>
+      <%= f.label :reason_purchase, '購入' %>
 
-        <%# Row 4: Actions %>
-        <div class="w-full h-10 inline-flex justify-start items-start gap-2">
-            <%= f.button type: "submit", class: "flex-1 h-10 bg-green-500 rounded-[10px] flex justify-center items-center gap-2 hover:opacity-90 active:scale-95 transition border-none cursor-pointer text-white" do %>
-                <%= image_tag 'save_icon_white.png', size: '20x20', class: 'brightness-0 invert' %>
-                <div class="text-base font-medium font-['Inter'] leading-6">保存</div>
-            <% end %>
-            <%= link_to items_path, class: "w-12 h-10 bg-gray-300 rounded-[10px] flex justify-center items-center hover:bg-gray-400 active:scale-95 transition text-decoration-none", data: { turbo_frame: dom_id(item, :adjustment) } do %>
-                <%= image_tag 'cancel_icon_gray.png', size: '20x20', class: 'opacity-70' %>
-            <% end %>
-        </div>
+      <%= f.radio_button :reason, 'consume' %>
+      <%= f.label :reason_consume, '消費' %>
+
+      <%= f.radio_button :reason, 'dispose' %>
+      <%= f.label :reason_dispose, '破棄' %>
+    </div>
+
+    <%# 数量入力 %>
+    <div style="margin-bottom: 12px;">
+      <%= f.label :amount, '数量' %>
+      <%= f.number_field :amount, value: 1, style: "width: 60px;" %>
+    </div>
+
+    <%# アクションボタン %>
+    <div>
+      <%= f.submit "保存" %>
+      <%= link_to "キャンセル", stock_item_path(item), data: { turbo_frame: dom_id(item, :adjustment) } %>
     </div>
   <% end %>
-
-  <script>
-    (() => {
-      const frame = document.getElementById("<%= dom_id(item, :adjustment) %>");
-      if (!frame) return;
-      const amountEl = frame.querySelector("#<%= dom_id(item, :amount) %>");
-      const previewEl = frame.querySelector("#<%= dom_id(item, :preview) %>");
-      const currentQty = <%= item.quantity %>;
-
-      const update = () => {
-        const amt = parseInt(amountEl.value, 10) || 0;
-        const checked = frame.querySelector('input[name="stock_adjustment[reason]"]:checked');
-        const isPlus = checked && checked.value === 'purchase';
-        const res = currentQty + (isPlus ? amt : -amt);
-        previewEl.textContent = res % 1 === 0 ? res.toFixed(0) : res.toFixed(1);
-      };
-
-      frame.addEventListener('click', e => {
-        const btn = e.target.closest('button[type="button"]');
-        if (btn && btn.dataset.action) {
-          let v = parseInt(amountEl.value, 10) || 0;
-          if (btn.dataset.action === 'inc') v += 1;
-          if (btn.dataset.action === 'dec' && v > 0) v -= 1;
-          amountEl.value = v;
-          update();
-        }
-      });
-      frame.addEventListener('change', e => {
-        if (e.target.name === 'stock_adjustment[reason]') update();
-      });
-    })();
-  </script>
 <% end %>

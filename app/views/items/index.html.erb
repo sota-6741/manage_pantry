@@ -1,57 +1,53 @@
-<div class="relative size-full" style="background-image: linear-gradient(114.78856297515668deg, rgb(240, 253, 244) 0%, rgb(255, 255, 255) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)">
-  <div class="flex flex-col h-full items-start left-0 top-0 w-full">
-    <div class="relative shrink-0 w-full px-4 pt-8 pb-4">
+<div style="background-image: linear-gradient(114.78856297515668deg, rgb(240, 253, 244) 0%, rgb(255, 255, 255) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)">
+  <div>
+    <div>
       
       <%# Header %>
-      <div class="flex flex-col gap-2">
+      <div>
         <div>
-          <p class="text-3xl font-sans not-italic text-[#008236]">
+          <p>
             Manage Pantory
           </p>
         </div>
-        <div class="flex">
-          <p class="flex-1 font-sans not-italic text-[#4a5565] text-base">
+        <div>
+          <p>
             家の食材在庫管理
           </p>
         </div>
       </div>
 
       <%# Category Manager %>
-      <div class="bg-white flex flex-col mt-8 p-4 rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.1)]">
-        <div class="flex flex-col gap-3">
+      <div>
+        <div>
           <%= form_tag items_path, method: :get do %>
             <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id]), 
-                include_blank: "すべてのカテゴリー", 
-                class: "bg-white border-[#e5e7eb] border-[0.528px] border-solid h-10 relative rounded-[10px] w-full px-2.5 font-['Inter:Regular','Noto_Sans_JP:Regular',sans-serif] font-normal text-base text-[#0a0a0a] tracking-[-0.3125px]",
+                include_blank: "すべてのカテゴリー",
                 onchange: "this.form.submit();" %>
           <% end %>
-          <button class="bg-[#00c950] h-10 relative rounded-[10px] w-full flex items-center justify-center">
-            <%= image_tag 'add_category.png', class: "size-5" %>
-            <span class="font-sans text-base text-center text-white ml-2">カテゴリー追加</span>
+          <button>
+            <span>カテゴリー追加</span>
           </button>
         </div>
       </div>
 
       <%# Add Item Button %>
-      <div class="mt-5">
-        <%= link_to new_item_path, class: "bg-[#00c950] h-12 rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.1)] w-[170px] flex items-center justify-center" do %>
-          <%= image_tag 'add_item.png', class: "size-5" %>
-          <span class="font-['Inter:Medium','Noto_Sans_JP:Regular',sans-serif] font-medium text-base text-center text-white ml-2 tracking-[-0.3125px]">アイテム追加</span>
+      <div>
+        <%= link_to new_item_path do %>
+          <span>アイテム追加</span>
         <% end %>
       </div>
 
       <%# Inventory List %>
-      <div class="mt-8">
+      <div>
         <% if @items.any? %>
-          <div class="flex flex-col gap-4">
+          <div>
             <% @items.each do |item| %>
               <%= render partial: "items/item_card", locals: { item: item, highlight: item.expired_soon? } %>
             <% end %>
           </div>
         <% else %>
-          <div class="bg-white h-[176px] overflow-clip rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_-1px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center">
-            <%= image_tag 'no_stock.png', class: "size-12" %>
-            <p class="font-sans leading-6 text-[#6a7282] text-base text-center mt-2">
+          <div>
+            <p>
               在庫アイテムがありません
             </p>
           </div>

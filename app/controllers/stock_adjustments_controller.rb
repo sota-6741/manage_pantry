@@ -15,16 +15,23 @@ class StockAdjustmentsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.replace(
-          dom_id(@item),
-          partial: "items/item_card",
-          locals: { item: @item }
+        render turbo_stream: turbo_stream.update(
+          "adjustment_item_#{@item.id}",
+          render_to_string(partial: "stock_adjustments/stock", locals: { item: @item })
         )
       end
-      format.html { redirect_to items_path, notice: "アイテムの在庫数を変更しました" }
     end
   rescue StandardError => e
-    redirect_to items_path, alert: e.message
+    @item = Item.find(params[:item_id]) # エラー時にも@itemが必要
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update(
+          "adjustment_item_#{@item.id}",
+          render_to_string(partial: "stock_adjustments/form", locals: { item: @item, error_message: e.message })
+        )
+      end
+      format.html { redirect_to items_path, alert: e.message }
+    end
   end
 
   private

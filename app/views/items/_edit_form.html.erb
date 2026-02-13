@@ -1,0 +1,42 @@
+<%= form_with(model: @item) do |f| %>
+  
+  <%# Title %>
+  <h2>アイテム編集</h2>
+
+  <%# Form Fields %>
+  <div>
+    
+    <%# Item Name %>
+    <div>
+      <div>
+        <%= f.label :name, '商品名' %>
+      </div>
+      <%= f.text_field :name, placeholder: "例: りんご" %>
+    </div>
+
+    <%# Expiration Date %>
+    <div>
+      <div>
+        <%= f.label :expiration_date, '賞味期限' %>
+      </div>
+      <%= f.date_field :expiration_date %>
+    </div>
+
+    <%# Category %>
+    <div>
+      <div>
+        <%= f.label :category_id, 'カテゴリー' %>
+      </div>
+      <%= f.collection_select :category_id, @categories, :id, :name, { include_blank: 'カテゴリーを選択' } %>
+    </div>
+
+  </div>
+
+  <%# Action Buttons %>
+  <div>
+    <button type="submit">
+      <span>更新</span>
+    </button>
+    <%= link_to "キャンセル", item_path(@item), data: { turbo_frame: "item_info_#{@item.id}" } %>
+  </div>
+<% end %>

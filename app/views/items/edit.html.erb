@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "item_info_#{@item.id}" do %>
+  <%= render 'edit_form', item: @item, categories: @categories %>
+<% end %>

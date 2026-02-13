@@ -1,62 +1,56 @@
-<div class="relative w-full min-h-screen" style="background-image: linear-gradient(114.78856297515668deg, rgb(240, 253, 244) 0%, rgb(255, 255, 255) 100%)">
-  <div class="flex items-center justify-center py-12 px-4">
-    <div class="bg-white w-full max-w-md mx-auto rounded-lg shadow-lg p-6">
-      <%= form_with(model: @item, url: items_path, method: :post, class: "flex flex-col gap-6") do |f| %>
+<div style="background-image: linear-gradient(114.78856297515668deg, rgb(240, 253, 244) 0%, rgb(255, 255, 255) 100%)">
+  <div>
+    <div>
+      <%= form_with(model: @item, url: items_path, method: :post) do |f| %>
         
         <%# Title %>
-        <h2 class="text-xl font-medium text-zinc-900">アイテム登録</h2>
+        <h2>アイテム登録</h2>
 
         <%# Form Fields %>
-        <div class="flex flex-col gap-4">
+        <div>
           
           <%# Item Name %>
           <div>
-            <div class="flex items-center gap-2 mb-2">
-              <%= image_tag 'item_name_icon.png', size: '16x16' %>
-              <%= f.label :name, '商品名', class: "text-base font-medium text-gray-700" %>
+            <div>
+              <%= f.label :name, '商品名' %>
             </div>
-            <%= f.text_field :name, class: "w-full h-10 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500", placeholder: "例: りんご" %>
+            <%= f.text_field :name, placeholder: "例: りんご" %>
           </div>
 
           <%# Quantity %>
           <div>
-            <div class="flex items-center gap-2 mb-2">
-              <%= image_tag 'stock_icon.png', size: '16x16' %>
-              <%= f.label :quantity, '商品数', class: "text-base font-medium text-gray-700" %>
+            <div>
+              <%= f.label :quantity, '商品数' %>
             </div>
-            <%= f.number_field :quantity, class: "w-full h-10 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500", placeholder: "1" %>
+            <%= f.number_field :quantity, placeholder: "1" %>
           </div>
 
           <%# Expiration Date %>
           <div>
-            <div class="flex items-center gap-2 mb-2">
-              <%= image_tag 'expiration_date_icon.png', size: '16x16' %>
-              <%= f.label :expiration_date, '賞味期限', class: "text-base font-medium text-gray-700" %>
+            <div>
+              <%= f.label :expiration_date, '賞味期限' %>
             </div>
-            <%= f.date_field :expiration_date, class: "w-full h-10 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" %>
+            <%= f.date_field :expiration_date %>
           </div>
 
           <%# Category %>
           <div>
-            <div class="flex items-center gap-2 mb-2">
-              <%= image_tag 'tag_icon.png', size: '16x16' %>
-              <%= f.label :category_id, 'カテゴリー', class: "text-base font-medium text-gray-700" %>
+            <div>
+              <%= f.label :category_id, 'カテゴリー' %>
             </div>
-            <%= f.collection_select :category_id, @categories, :id, :name, { include_blank: 'カテゴリーを選択' }, class: "w-full h-10 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" %>
+            <%= f.collection_select :category_id, @categories, :id, :name, { include_blank: 'カテゴリーを選択' } %>
           </div>
 
         </div>
 
         <%# Action Buttons %>
-        <div class="flex items-center justify-between gap-4 mt-4">
-          <%= link_to items_path, class: "w-1/2 h-14 bg-gray-200 rounded-lg flex items-center justify-center gap-2 text-gray-700 font-medium transition hover:bg-gray-300" do %>
-            <%= image_tag 'cancel_icon.png', size: '18x18' %>
-            <span>キャンセル</span>
-          <% end %>
-          <button type="submit" class="w-1/2 h-14 bg-green-500 rounded-lg flex items-center justify-center gap-2 text-white font-medium transition hover:bg-green-600">
-            <%= image_tag 'save_icon.png', size: '20x20' %>
+        <div>
+          <button type="submit">
             <span>保存</span>
           </button>
+          <%= link_to items_path do %>
+            <span>キャンセル</span>
+          <% end %>
         </div>
       <% end %>
     </div>

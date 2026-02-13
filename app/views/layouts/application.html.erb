@@ -8,7 +8,6 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,9 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
 
-  <body class="bg-pantory-bg text-pantory-text min-h-screen antialiased">
-    <main class="max-w-md mx-auto min-h-screen">
+  <body>
+    <main>
       <%= yield %>
     </main>
+    <script type="module">
+      import * as Turbo from "https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.4/dist/turbo.es2017-esm.js"
+    </script>
   </body>
 </html>

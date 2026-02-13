@@ -1,17 +1,16 @@
-<div id="<%= dom_id(item) %>" class="flex flex-col items-start min-h-[176px] overflow-hidden bg-white border border-gray-100 rounded-xl shadow-sm">
-  <div class="flex flex-col w-full gap-3 pt-4 pb-4 pl-5 pr-4 border-l-4 <%= item_highlight_class(item) %>">
+<div id="<%= dom_id(item) %>">
+  <div>
 
     <%# アイテム名 %>
-    <div class="flex items-start justify-between">
-      <h3 class="font-sans text-lg font-medium leading-7 text-neutral-950"><%= item.name %></h3>
+    <div>
+      <h3><%= link_to item.name, item_path(item) %></h3>
     </div>
 
     <%# 詳細情報 %>
-    <div class="flex flex-col gap-2">
+    <div>
       <%# カテゴリー %>
-      <div class="flex items-center gap-2">
-        <%= image_tag 'tag_icon.png', size: '16x16', class: 'object-contain', alt: 'カテゴリー' %>
-        <span class="font-sans text-sm font-normal text-gray-600">
+      <div>
+        <span>
           <%= item.category&.name || "未分類" %>
         </span>
       </div>
@@ -22,9 +21,8 @@
       <% end %>
 
       <%# 賞味期限 %>
-      <div class="flex items-center gap-2">
-        <%= image_tag 'expiration_date_icon.png', size: '16x16', class: 'object-contain', alt: '期限' %>
-        <span class="font-sans text-sm <%= expiration_date_class(item) %>"><%= item.expiration_date.strftime("%Y-%m-%d") %></span>
+      <div>
+        <span><%= item.expiration_date.strftime("%Y-%m-%d") %></span>
       </div>
     </div>
   </div>

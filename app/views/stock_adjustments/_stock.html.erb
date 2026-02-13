@@ -1,17 +1,4 @@
-<%= turbo_frame_tag dom_id(item, :adjustment) do %>
-<div class="flex items-center justify-between w-full h-[56px] px-[12px] bg-[#f9fafb] rounded-[10px]">
-  <div class="flex items-center gap-[8px]">
-    <%= image_tag 'stock_icon.png', size: '20x20', class: 'object-contain', alt: '在庫' %>
-    <span class="font-['Inter'] font-bold text-[18px] text-[#364153] leading-[28px]">
-      <%= display_quantity(item.quantity) %>
-    </span>
-  </div>
-  
-  <%= link_to new_item_stock_adjustment_path(item),
-      class: "flex items-center h-[32px] pl-[12px] pr-[16px] gap-[4px] bg-[#00c950] rounded-[10px] hover:bg-[#00b046] transition active:scale-95 text-decoration-none",
-      data: { turbo_frame: dom_id(item, :adjustment) } do %>
-    <%= image_tag 'edit_icon.png', size: '16x16', class: 'object-contain brightness-0 invert', alt: '変更' %>
-    <span class="font-['Inter'] font-medium text-[14px] text-white leading-[20px]">変更</span>
-  <% end %>
+<div>
+  <span>在庫: <%= display_quantity(item.quantity) %></span>
+  <%= link_to "変更", new_item_stock_adjustment_path(item), data: { turbo_frame: dom_id(item, :adjustment) } %>
 </div>
-<% end %>
