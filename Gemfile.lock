@@ -301,18 +301,15 @@ GEM
       net-ssh (>= 2.8.0)
       ostruct
     stringio (3.2.0)
-    tailwindcss-rails (4.4.0)
-      railties (>= 7.0.0)
-      tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.1.18-aarch64-linux-gnu)
-    tailwindcss-ruby (4.1.18-arm64-darwin)
-    tailwindcss-ruby (4.1.18-x86_64-linux-gnu)
     thor (1.5.0)
     thruster (0.1.17-aarch64-linux)
     thruster (0.1.17-arm64-darwin)
     thruster (0.1.17-x86_64-linux)
     timeout (0.6.0)
     tsort (0.2.0)
+    turbo-rails (2.0.23)
+      actionpack (>= 7.1.0)
+      railties (>= 7.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.2.0)
@@ -347,8 +344,8 @@ DEPENDENCIES
   solid_cache
   solid_queue
   sprockets-rails
-  tailwindcss-rails (~> 4.4)
   thruster
+  turbo-rails
   tzinfo-data
 
 BUNDLED WITH
