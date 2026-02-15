@@ -1,35 +1,33 @@
-<%= turbo_frame_tag dom_id(item, :adjustment) do %>
-  <%= form_with(scope: :stock_adjustment, url: item_stock_adjustments_path(item), method: :post) do |f| %>
+<%= form_with(scope: :stock_adjustment, url: item_stock_adjustments_path(item), method: :post) do |f| %>
 
-    <%# エラーメッセージ表示 %>
-    <% if local_assigns.has_key?(:error_message) && error_message.present? %>
-      <div style="color: red; margin-bottom: 10px;">
-        <strong>エラー:</strong> <%= error_message %>
-      </div>
-    <% end %>
-
-    <%# 理由選択 %>
-    <div style="margin-bottom: 12px;">
-      <%= f.radio_button :reason, 'purchase', checked: true %>
-      <%= f.label :reason_purchase, '購入' %>
-
-      <%= f.radio_button :reason, 'consume' %>
-      <%= f.label :reason_consume, '消費' %>
-
-      <%= f.radio_button :reason, 'dispose' %>
-      <%= f.label :reason_dispose, '破棄' %>
-    </div>
-
-    <%# 数量入力 %>
-    <div style="margin-bottom: 12px;">
-      <%= f.label :amount, '数量' %>
-      <%= f.number_field :amount, value: 1, style: "width: 60px;" %>
-    </div>
-
-    <%# アクションボタン %>
-    <div>
-      <%= f.submit "保存" %>
-      <%= link_to "キャンセル", stock_item_path(item), data: { turbo_frame: dom_id(item, :adjustment) } %>
+  <%# エラーメッセージ表示 %>
+  <% if local_assigns.has_key?(:error_message) && error_message.present? %>
+    <div style="color: red; margin-bottom: 10px;">
+      <strong>エラー:</strong> <%= error_message %>
     </div>
   <% end %>
+
+  <%# 理由選択 %>
+  <div style="margin-bottom: 12px;">
+    <%= f.radio_button :reason, 'purchase', checked: true %>
+    <%= f.label :reason_purchase, t("activerecord.attributes.inventory_log.reasons.purchase") %>
+
+    <%= f.radio_button :reason, 'consume' %>
+    <%= f.label :reason_consume, t("activerecord.attributes.inventory_log.reasons.consume") %>
+
+    <%= f.radio_button :reason, 'dispose' %>
+    <%= f.label :reason_dispose, t("activerecord.attributes.inventory_log.reasons.dispose") %>
+  </div>
+
+  <%# 数量入力 %>
+  <div style="margin-bottom: 12px;">
+    <%= f.label :amount, '数量' %>
+    <%= f.number_field :amount, value: 1, style: "width: 60px;" %>
+  </div>
+
+  <%# アクションボタン %>
+  <div>
+    <%= f.submit "保存" %>
+    <%= link_to "キャンセル", stock_item_path(item), data: { turbo_frame: dom_id(item, :adjustment) } %>
+  </div>
 <% end %>
