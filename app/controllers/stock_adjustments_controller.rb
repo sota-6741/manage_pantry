@@ -2,33 +2,41 @@ class StockAdjustmentsController < ApplicationController
   helper ItemsHelper
 
   def new
-    @item = Item.find(params[:item_id])
+    @item = current_user.items.find(params[:item_id])
   end
 
   def create
-    usecase = InventoryUsecases::ChangeStockUsecase.new
+    usecase = InventoryUsecases::ChangeStockUsecase.new(user: current_user)
     @item = usecase.call(
       item_id: params[:item_id],
       amount: stock_adjustment_params[:amount].to_i,
       reason_key: stock_adjustment_params[:reason]
     )
+    flash.now[:notice] = "「#{@item.name}」の在庫を更新しました"
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.update(
-          "adjustment_item_#{@item.id}",
-          render_to_string(partial: "stock_adjustments/stock", locals: { item: @item })
-        )
+        render turbo_stream: [
+          turbo_stream.update(
+            helpers.dom_id(@item, :adjustment),
+            render_to_string(partial: "stock_adjustments/display", locals: { item: @item })
+          ),
+          turbo_stream.update("flash", partial: "shared/flash")
+        ]
       end
     end
   rescue StandardError => e
-    @item = Item.find(params[:item_id]) # エラー時にも@itemが必要
+    @item = current_user.items.find(params[:item_id]) # エラー時にも@itemが必要
+    flash.now[:alert] = "在庫の更新に失敗しました: #{e.message}"
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.update(
-          "adjustment_item_#{@item.id}",
-          render_to_string(partial: "stock_adjustments/form", locals: { item: @item, error_message: e.message })
-        )
+        render turbo_stream: [
+          turbo_stream.update(
+            helpers.dom_id(@item, :adjustment),
+            render_to_string(partial: "stock_adjustments/form", locals: { item: @item, error_message: e.message })
+          ),
+          turbo_stream.update("flash", partial: "shared/flash")
+        ]
       end
       format.html { redirect_to items_path, alert: e.message }
     end
