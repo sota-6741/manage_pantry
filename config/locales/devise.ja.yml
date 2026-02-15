@@ -1,0 +1,18 @@
+ja:
+  devise:
+    failure:
+      unauthenticated: "ログインしてください。"
+      already_authenticated: "すでにログインしています。"
+      invalid: "メールアドレスまたはパスワードが違います。"
+      not_found_in_database: "メールアドレスまたはパスワードが違います。"
+      last_attempt: "ログインに失敗しました。あと1回でアカウントがロックされます。"
+      timeout: "セッションがタイムアウトしました。もう一度ログインしてください。"
+      user:
+        unauthenticated: "ログインしてください。"
+    omniauth_callbacks:
+      success: "%{kind} アカウントでログインしました。"
+      failure: "%{kind} アカウントでのログインに失敗しました（理由: %{reason}）。"
+    sessions:
+      signed_in: "ログインしました。"
+      signed_out: "ログアウトしました。"
+      already_signed_out: "ログアウトしました。"

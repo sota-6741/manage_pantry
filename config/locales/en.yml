@@ -29,3 +29,10 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      inventory_log:
+        reasons:
+          purchase: "Purchase"
+          consume: "Consume"
+          dispose: "Dispose"
