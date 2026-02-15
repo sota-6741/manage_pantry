@@ -4,8 +4,8 @@ module CategoryUsecases
       @category_model = category_model
     end
 
-    def call
-      categories = @category_model.all
+    def call(user:)
+      categories = user.categories.all
       categories
     end
   end
