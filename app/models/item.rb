@@ -1,4 +1,5 @@
 class Item < ApplicationRecord
+  belongs_to :user
   belongs_to :category, optional: true
   has_many :inventory_logs, dependent: :destroy
 
@@ -11,10 +12,23 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :quantity, presence: true
   validates :expiration_date, presence: true
+  
+  validate :name_uniqueness
+
   # 0以上の数値か？(在庫なしも管理したほうがいいかも)
   validates :quantity, numericality: {
     greater_than_or_equal_to: MIN_QUANTITY
   }
+
+  private
+
+  def name_uniqueness
+    return unless user_id
+
+    if Item.where(user_id: user_id, name: name).where.not(id: id).exists?
+      errors.add(:base, "「#{name}」はすでに登録されています。")
+    end
+  end
 
   # 状態管理メソッド
   def expired?
