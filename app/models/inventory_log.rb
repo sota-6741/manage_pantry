@@ -17,4 +17,8 @@ class InventoryLog < ApplicationRecord
   def inventory_reason_delta
     InventoryReasonDelta.new(reason)
   end
+
+  def human_reason
+    I18n.t("activerecord.attributes.inventory_log.reasons.#{reason}", default: reason)
+  end
 end
