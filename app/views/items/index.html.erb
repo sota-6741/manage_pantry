@@ -18,16 +18,7 @@
 
       <%# Category Manager %>
       <div>
-        <div>
-          <%= form_tag items_path, method: :get do %>
-            <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id]), 
-                include_blank: "すべてのカテゴリー",
-                onchange: "this.form.submit();" %>
-          <% end %>
-          <button>
-            <span>カテゴリー追加</span>
-          </button>
-        </div>
+        <%= render "categories/selector", categories: @categories %>
       </div>
 
       <%# Add Item Button %>
@@ -41,9 +32,7 @@
       <div>
         <% if @items.any? %>
           <div>
-            <% @items.each do |item| %>
-              <%= render partial: "items/item_card", locals: { item: item, highlight: item.expired_soon? } %>
-            <% end %>
+            <%= render @items %>
           </div>
         <% else %>
           <div>
