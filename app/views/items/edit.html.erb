@@ -1,3 +1,3 @@
-<%= turbo_frame_tag "item_info_#{@item.id}" do %>
-  <%= render 'edit_form', item: @item, categories: @categories %>
+<%= turbo_frame_tag dom_id(@item, :info) do %>
+  <%= render 'form', item: @item, categories: @categories, title: 'アイテム編集', submit_label: '更新', cancel_path: item_path(@item), cancel_data: { turbo_frame: dom_id(@item, :info) } %>
 <% end %>
