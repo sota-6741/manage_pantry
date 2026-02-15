@@ -1,58 +1,7 @@
 <div style="background-image: linear-gradient(114.78856297515668deg, rgb(240, 253, 244) 0%, rgb(255, 255, 255) 100%)">
   <div>
     <div>
-      <%= form_with(model: @item, url: items_path, method: :post) do |f| %>
-        
-        <%# Title %>
-        <h2>アイテム登録</h2>
-
-        <%# Form Fields %>
-        <div>
-          
-          <%# Item Name %>
-          <div>
-            <div>
-              <%= f.label :name, '商品名' %>
-            </div>
-            <%= f.text_field :name, placeholder: "例: りんご" %>
-          </div>
-
-          <%# Quantity %>
-          <div>
-            <div>
-              <%= f.label :quantity, '商品数' %>
-            </div>
-            <%= f.number_field :quantity, placeholder: "1" %>
-          </div>
-
-          <%# Expiration Date %>
-          <div>
-            <div>
-              <%= f.label :expiration_date, '賞味期限' %>
-            </div>
-            <%= f.date_field :expiration_date %>
-          </div>
-
-          <%# Category %>
-          <div>
-            <div>
-              <%= f.label :category_id, 'カテゴリー' %>
-            </div>
-            <%= f.collection_select :category_id, @categories, :id, :name, { include_blank: 'カテゴリーを選択' } %>
-          </div>
-
-        </div>
-
-        <%# Action Buttons %>
-        <div>
-          <button type="submit">
-            <span>保存</span>
-          </button>
-          <%= link_to items_path do %>
-            <span>キャンセル</span>
-          <% end %>
-        </div>
-      <% end %>
+      <%= render 'form', item: @item, categories: @categories, title: 'アイテム登録', submit_label: '保存', cancel_path: items_path, show_quantity: true %>
     </div>
   </div>
 </div>
