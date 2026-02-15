@@ -16,7 +16,25 @@
   </head>
 
   <body>
+    <% if user_signed_in? %>
+      <header style="padding: 10px 20px; background: #fff; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <strong><%= link_to "Manage Pantory", root_path, style: "text-decoration: none; color: #333; font-family: 'Outfit', sans-serif; font-size: 1.2rem;" %></strong>
+        </div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <span style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #555;">
+            <% if current_user.image.present? %>
+              <%= image_tag current_user.image, size: "28x28", style: "border-radius: 50%;" %>
+            <% end %>
+            <%= current_user.name %>
+          </span>
+          <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, style: "color: #ef4444; font-size: 0.9rem; text-decoration: none; border: 1px solid #fee2e2; padding: 4px 12px; border-radius: 6px; background: #fef2f2;" %>
+        </div>
+      </header>
+    <% end %>
+
     <main>
+      <%= render "shared/flash" %>
       <%= yield %>
     </main>
     <script type="module">
