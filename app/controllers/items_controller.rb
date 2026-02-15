@@ -1,81 +1,80 @@
 class ItemsController < ApplicationController
   def index
-    items_usecase = InventoryUsecases::ListItemsUsecase.new
-    @items = items_usecase.call(category_id: params[:category_id])
-
-    categories_usecase = CategoryUsecases::ListCategoryUsecase.new
-    @categories = categories_usecase.call
+    @items = InventoryUsecases::ListItemsUsecase.new.call(category_id: params[:category_id], user: current_user)
+    @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
   end
 
   def show
-    @item = Item.find(params[:id])
-    @inventory_logs = @item.inventory_logs.order(created_at: :desc)
+    @item, @inventory_logs = InventoryUsecases::ShowInventoryLogUsecase.new(user: current_user).call(params[:id])
   end
 
   def edit
-    @item = Item.find(params[:id])
-    categories_usecase = CategoryUsecases::ListCategoryUsecase.new
-    @categories = categories_usecase.call
+    @item = current_user.items.find(params[:id])
+    @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
   end
 
   def new
-    @item = Item.new
-    categories_usecase = CategoryUsecases::ListCategoryUsecase.new
-    @categories = categories_usecase.call
+    @item = current_user.items.new
+    @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
   end
 
   def create
-    usecase = InventoryUsecases::CreateItemUsecase.new
-    @item = usecase.call(item_params)
-    redirect_to new_item_path, notice: "アイテムを追加しました"
+    @item = InventoryUsecases::CreateItemUsecase.new(user: current_user).call(item_params)
+    redirect_to items_path, notice: "「#{@item.name}」を登録しました"
   rescue ActiveRecord::RecordInvalid => e
-    # 保存失敗時は例外から item を取り出してフォームに渡す
     @item = e.record
-    categories_usecase = CategoryUsecases::ListCategoryUsecase.new
-    @categories = categories_usecase.call
+    @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
+    flash.now[:alert] = "登録に失敗しました: #{@item.errors.full_messages.join('、')}"
     render :new, status: :unprocessable_entity
   end
 
   def update
-    usecase = InventoryUsecases::UpdateItemUsecase.new
-    @item = usecase.call(params[:id], item_update_params)
+    @item = InventoryUsecases::UpdateItemUsecase.new(user: current_user).call(params[:id], item_update_params)
+    flash.now[:notice] = "「#{@item.name}」を更新しました"
     
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.update(
-          "item_info_#{@item.id}",
-          partial: "items/item_info",
-          locals: { item: @item }
-        )
+        render turbo_stream: [
+          turbo_stream.update(helpers.dom_id(@item, :info), partial: "items/details", locals: { item: @item }),
+          turbo_stream.update("flash", partial: "shared/flash")
+        ]
       end
       format.html { redirect_to item_path(@item), notice: "アイテムを更新しました" }
     end
   rescue ActiveRecord::RecordInvalid => e
     @item = e.record
-    categories_usecase = CategoryUsecases::ListCategoryUsecase.new
-    @categories = categories_usecase.call
+    @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
+    flash.now[:alert] = "更新に失敗しました"
     
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.update(
-          "item_info_#{@item.id}",
-          partial: "items/edit_form",
-          locals: { item: @item, categories: @categories }
-        )
+        render turbo_stream: [
+          turbo_stream.update(
+            helpers.dom_id(@item, :info),
+            partial: "items/form",
+            locals: { 
+              item: @item, 
+              categories: @categories, 
+              title: 'アイテム編集', 
+              submit_label: '更新', 
+              cancel_path: item_path(@item), 
+              cancel_data: { turbo_frame: helpers.dom_id(@item, :info) } 
+            }
+          ),
+          turbo_stream.update("flash", partial: "shared/flash")
+        ]
       end
       format.html { render :edit, status: :unprocessable_entity }
     end
   end
 
   def destroy
-    usecase = InventoryUsecases::DeleteItemUsecase.new
-    @item = usecase.call(params[:id])
+    InventoryUsecases::DeleteItemUsecase.new(user: current_user).call(params[:id])
     redirect_to items_path, notice: "アイテムを削除しました"
   end
 
   def stock
-    @item = Item.find(params[:id])
-    render partial: "stock_adjustments/stock", locals: { item: @item }
+    @item = current_user.items.find(params[:id])
   end
 
   private
@@ -85,6 +84,6 @@ class ItemsController < ApplicationController
   end
 
   def item_update_params
-    params.require(:item).permit(:name, :expiration_date)
+    params.require(:item).permit(:name, :expiration_date, :category_id)
   end
 end
