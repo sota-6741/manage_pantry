@@ -1,11 +1,11 @@
 module CategoryUsecases
   class CreateCategoryUsecase
-    def initialize(category_model: Category)
-      @category_model = category_model
+    def initialize(user:)
+      @user = user
     end
 
     def call(params)
-      category = @category_model.create!(params)
+      category = @user.categories.create!(params)
       category
     end
   end
