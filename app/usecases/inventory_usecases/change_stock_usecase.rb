@@ -1,12 +1,12 @@
 module InventoryUsecases
   class ChangeStockUsecase
-    def initialize(item_model: Item, inventory_log_model: InventoryLog)
-      @item_model = item_model
+    def initialize(user:, inventory_log_model: InventoryLog)
+      @user = user
       @inventory_log_model = inventory_log_model
     end
 
     def call(item_id:, amount:, reason_key:)
-      item = @item_model.find(item_id)
+      item = @user.items.find(item_id)
       inventory_reason = InventoryReasonDelta.new(reason_key)
       delta = inventory_reason.delta(amount)
 
