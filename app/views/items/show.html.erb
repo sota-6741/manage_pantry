@@ -1,22 +1,22 @@
 <h1>アイテム詳細</h1>
 
 <div style="margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
-  
-  <%= turbo_frame_tag "item_info_#{@item.id}" do %>
-    <%= render 'item_info', item: @item %>
+
+  <%= turbo_frame_tag dom_id(@item, :info) do %>
+    <%= render 'details', item: @item %>
   <% end %>
 </div>
 
 <div style="margin-top: 30px;">
   <h2>変動履歴</h2>
-  
+
   <% if @inventory_logs.any? %>
     <ul style="list-style: none; padding: 0;">
       <% @inventory_logs.each do |log| %>
         <li style="border: 1px solid #eee; padding: 10px; margin-top: 10px;">
           <div>
             <span><strong>数量変更:</strong> <%= log.change_amount %></span>
-            <span style="margin-left: 20px;"><strong>理由:</strong> <%= log.reason %></span>
+            <span style="margin-left: 20px;"><strong>理由:</strong> <%= log.human_reason %></span>
           </div>
           <div style="font-size: 0.9em; color: #777;">
             <%= log.created_at.strftime("%Y/%m/%d %H:%M") %>
