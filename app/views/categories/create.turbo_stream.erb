@@ -1,0 +1,7 @@
+<%= turbo_stream.update "category_selector" do %>
+  <%= render "categories/selector", categories: @categories %>
+<% end %>
+
+<%= turbo_stream.update "flash" do %>
+  <%= render "shared/flash" %>
+<% end %>
