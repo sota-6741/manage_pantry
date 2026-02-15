@@ -10,4 +10,8 @@ module ItemsHelper
   def expiration_date_class(item)
     item.expired_soon? ? "text-red-500 font-semibold" : "text-gray-600 font-normal"
   end
+
+  def format_date(date)
+    date&.strftime("%Y-%m-%d")
+  end
 end
