@@ -1,7 +1,7 @@
-<div style="background-image: linear-gradient(114.78856297515668deg, rgb(240, 253, 244) 0%, rgb(255, 255, 255) 100%)">
+<div>
   <div>
     <div>
-      <%= render 'form', item: @item, categories: @categories, title: 'アイテム登録', submit_label: '保存', cancel_path: items_path, show_quantity: true %>
+      <%= render 'form', item: @item, categories: @categories, title: t('views.items.form.new_title'), submit_label: t('views.common.save'), cancel_path: items_path, show_quantity: true %>
     </div>
   </div>
 </div>

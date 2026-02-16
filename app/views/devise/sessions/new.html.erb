@@ -1,16 +1,24 @@
-<div style="max-width: 400px; margin: 100px auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; text-align: center; background: #fff; shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
-  <h2 style="margin-bottom: 30px; font-family: 'Outfit', sans-serif;">Manage Pantory</h2>
-  
-  <p style="color: #666; margin-bottom: 30px;">食材管理を始めるにはログインしてください</p>
+<% content_for :head do %>
+  <%= stylesheet_link_tag "login", "data-turbo-track": "reload" %>
+<% end %>
 
-  <%= button_to user_google_oauth2_omniauth_authorize_path, 
-      data: { turbo: false }, 
-      style: "width: 100%; padding: 12px; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 16px;" do %>
-    <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20" height="20" style="margin-right: 10px;">
-    Googleでログイン
-  <% end %>
+<div class="login-container">
+  <section class="login-background">
+    <article class="login-card">
+      <div class="login-logo-wrapper" style="margin-top: 32px;">
+        <%= image_tag "login_page/app_icon.png", alt: "Manage Pantory アプリケーションアイコン", class: "login-app-icon" %>
+      </div>
 
-  <div style="margin-top: 40px; font-size: 12px; color: #999;">
-    &copy; 2026 Manage Pantory
-  </div>
+      <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: false }, class: "google-login-button", aria: { label: t("views.sessions.new.google_login") } do %>
+        <%= image_tag "login_page/google_icon.png", alt: "Google ロゴ", class: "google-icon" %>
+        <span class="google-button-text"><%= t("views.sessions.new.google_login") %></span>
+      <% end %>
+
+      <footer class="login-footer">
+        <p class="login-policy-text">
+          ログインすることで、利用規約とプライバシーポリシーに同意したものとみなされます
+        </p>
+      </footer>
+    </article>
+  </section>
 </div>

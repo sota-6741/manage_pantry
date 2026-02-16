@@ -6,15 +6,16 @@ class CategoriesController < ApplicationController
   def create
     @category = CategoryUsecases::CreateCategoryUsecase.new(user: current_user).call(category_params)
     @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
-    flash.now[:notice] = "カテゴリー「#{@category.name}」を追加しました"
+    notice_message = t("controllers.categories.created", name: @category.name)
+    flash.now[:notice] = notice_message
     
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to items_path, notice: "カテゴリー「#{@category.name}」を追加しました" }
+      format.html { redirect_to items_path, notice: notice_message }
     end
   rescue ActiveRecord::RecordInvalid => e
     @category = e.record
-    flash.now[:alert] = "カテゴリーの追加に失敗しました: #{@category.errors.full_messages.join('、')}"
+    flash.now[:alert] = t("controllers.categories.failed", errors: @category.errors.full_messages.join('、'))
     
     respond_to do |format|
       format.turbo_stream do

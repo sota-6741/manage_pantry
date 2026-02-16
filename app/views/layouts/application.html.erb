@@ -9,34 +9,36 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= yield :head %>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
 
   <body>
-    <% if user_signed_in? %>
-      <header style="padding: 10px 20px; background: #fff; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
-        <div>
-          <strong><%= link_to "Manage Pantory", root_path, style: "text-decoration: none; color: #333; font-family: 'Outfit', sans-serif; font-size: 1.2rem;" %></strong>
-        </div>
-        <div style="display: flex; align-items: center; gap: 15px;">
-          <span style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #555;">
+    <div class="main-content">
+      <%= render "shared/flash" %>
+
+      <header class="app-header">
+        <h1 class="app-title"><%= link_to t("views.common.app_name"), root_path, style: "text-decoration: none; color: inherit;" %></h1>
+        <p class="app-subtitle"><%= t("views.items.index.subtitle") %></p>
+        
+        <% if user_signed_in? %>
+          <div style="margin-top: 16px; display: flex; align-items: center; gap: 8px;">
             <% if current_user.image.present? %>
               <%= image_tag current_user.image, size: "28x28", style: "border-radius: 50%;" %>
             <% end %>
-            <%= current_user.name %>
-          </span>
-          <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, style: "color: #ef4444; font-size: 0.9rem; text-decoration: none; border: 1px solid #fee2e2; padding: 4px 12px; border-radius: 6px; background: #fef2f2;" %>
-        </div>
+            <span style="font-size: 14px; color: var(--color-subtitle);"><%= current_user.name %></span>
+            <%= link_to t("views.common.logout"), destroy_user_session_path, data: { turbo_method: :delete }, style: "font-size: 14px; color: var(--color-footer-text);" %>
+          </div>
+        <% end %>
       </header>
-    <% end %>
 
-    <main>
-      <%= render "shared/flash" %>
-      <%= yield %>
-    </main>
+      <main>
+        <%= yield %>
+      </main>
+    </div>
     <script type="module">
       import * as Turbo from "https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.4/dist/turbo.es2017-esm.js"
     </script>

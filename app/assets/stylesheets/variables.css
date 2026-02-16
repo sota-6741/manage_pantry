@@ -1,0 +1,21 @@
+:root {
+  /* Colors */
+  --color-primary-green: #00c950;
+  --color-text-green: #008236;
+  --color-subtitle: #4a5565;
+  --color-button-text: #364153;
+  --color-footer-text: #6a7282;
+  --color-border: #e5e7eb;
+  --color-bg-start: #f0fdf4;
+  --color-bg-end: #ffffff;
+  --color-text-dark: #0a0a0a;
+
+  /* Shadows */
+  --shadow-card: 0px 10px 15px 0px rgba(0, 0, 0, 0.1), 0px 4px 6px 0px rgba(0, 0, 0, 0.1);
+  --shadow-button: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  --shadow-inventory: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1);
+
+  /* Fonts */
+  --font-arimo: "Arimo", "Arial", sans-serif;
+  --font-noto: "Arimo", "Noto Sans JP", "Inter", sans-serif;
+}

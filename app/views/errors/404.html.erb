@@ -1,8 +1,8 @@
-<div style="max-width: 600px; margin: 100px auto; text-align: center;">
-  <h1>404 Not Found</h1>
-  <p>お探しのページまたはアイテムが見つかりませんでした。</p>
-  <p>削除されたか、アクセス権限がない可能性があります。</p>
-  <div style="margin-top: 30px;">
-    <%= link_to "ホームへ戻る", root_path %>
+<div>
+  <h1><%= t("views.errors.404.title") %></h1>
+  <p><%= t("views.errors.404.message1") %></p>
+  <p><%= t("views.errors.404.message2") %></p>
+  <div>
+    <%= link_to t("views.common.home"), root_path %>
   </div>
 </div>

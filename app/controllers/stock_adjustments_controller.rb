@@ -12,7 +12,7 @@ class StockAdjustmentsController < ApplicationController
       amount: stock_adjustment_params[:amount].to_i,
       reason_key: stock_adjustment_params[:reason]
     )
-    flash.now[:notice] = "「#{@item.name}」の在庫を更新しました"
+    flash.now[:notice] = t("controllers.stock_adjustments.updated", name: @item.name)
 
     respond_to do |format|
       format.turbo_stream do
@@ -27,7 +27,7 @@ class StockAdjustmentsController < ApplicationController
     end
   rescue StandardError => e
     @item = current_user.items.find(params[:item_id]) # エラー時にも@itemが必要
-    flash.now[:alert] = "在庫の更新に失敗しました: #{e.message}"
+    flash.now[:alert] = t("controllers.stock_adjustments.failed", errors: e.message)
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [

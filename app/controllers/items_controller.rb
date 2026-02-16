@@ -20,17 +20,17 @@ class ItemsController < ApplicationController
 
   def create
     @item = InventoryUsecases::CreateItemUsecase.new(user: current_user).call(item_params)
-    redirect_to items_path, notice: "「#{@item.name}」を登録しました"
+    redirect_to items_path, notice: t("controllers.items.created", name: @item.name)
   rescue ActiveRecord::RecordInvalid => e
     @item = e.record
     @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
-    flash.now[:alert] = "登録に失敗しました: #{@item.errors.full_messages.join('、')}"
+    flash.now[:alert] = t("controllers.items.failed_create", errors: @item.errors.full_messages.join('、'))
     render :new, status: :unprocessable_entity
   end
 
   def update
     @item = InventoryUsecases::UpdateItemUsecase.new(user: current_user).call(params[:id], item_update_params)
-    flash.now[:notice] = "「#{@item.name}」を更新しました"
+    flash.now[:notice] = t("controllers.items.updated", name: @item.name)
     
     respond_to do |format|
       format.turbo_stream do
@@ -39,12 +39,12 @@ class ItemsController < ApplicationController
           turbo_stream.update("flash", partial: "shared/flash")
         ]
       end
-      format.html { redirect_to item_path(@item), notice: "アイテムを更新しました" }
+      format.html { redirect_to item_path(@item), notice: t("controllers.items.updated", name: @item.name) }
     end
   rescue ActiveRecord::RecordInvalid => e
     @item = e.record
     @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
-    flash.now[:alert] = "更新に失敗しました"
+    flash.now[:alert] = t("controllers.items.failed_update")
     
     respond_to do |format|
       format.turbo_stream do
@@ -55,8 +55,8 @@ class ItemsController < ApplicationController
             locals: { 
               item: @item, 
               categories: @categories, 
-              title: 'アイテム編集', 
-              submit_label: '更新', 
+              title: t('views.items.form.edit_title'), 
+              submit_label: t('views.items.form.update'), 
               cancel_path: item_path(@item), 
               cancel_data: { turbo_frame: helpers.dom_id(@item, :info) } 
             }
@@ -70,7 +70,7 @@ class ItemsController < ApplicationController
 
   def destroy
     InventoryUsecases::DeleteItemUsecase.new(user: current_user).call(params[:id])
-    redirect_to items_path, notice: "アイテムを削除しました"
+    redirect_to items_path, notice: t("controllers.items.deleted")
   end
 
   def stock

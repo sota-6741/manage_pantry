@@ -1,4 +1,4 @@
 <div>
-  <span>在庫: <%= display_quantity(item.quantity) %></span>
-  <%= link_to "変更", new_item_stock_adjustment_path(item), data: { turbo_frame: dom_id(item, :adjustment) } %>
+  <span><%= t("views.stock_adjustments.display.stock", quantity: display_quantity(item.quantity)) %></span>
+  <%= link_to t("views.stock_adjustments.display.change"), new_item_stock_adjustment_path(item), data: { turbo_frame: dom_id(item, :adjustment) } %>
 </div>

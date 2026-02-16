@@ -6,34 +6,34 @@
   <div>
     <%# Item Name %>
     <div>
-      <%= f.label :name, '商品名' %>
-      <%= f.text_field :name, placeholder: "例: りんご" %>
+      <%= f.label :name, t('activerecord.attributes.item.name') %>
+      <%= f.text_field :name, placeholder: t('views.items.form.placeholders.name') %>
     </div>
 
     <%# Quantity (only for new records if needed) %>
     <% if local_assigns[:show_quantity] %>
       <div>
-        <%= f.label :quantity, '商品数' %>
+        <%= f.label :quantity, t('activerecord.attributes.item.quantity') %>
         <%= f.number_field :quantity, placeholder: "1" %>
       </div>
     <% end %>
 
     <%# Expiration Date %>
     <div>
-      <%= f.label :expiration_date, '賞味期限' %>
+      <%= f.label :expiration_date, t('activerecord.attributes.item.expiration_date') %>
       <%= f.date_field :expiration_date %>
     </div>
 
     <%# Category %>
     <div>
-      <%= f.label :category_id, 'カテゴリー' %>
-      <%= f.collection_select :category_id, categories, :id, :name, { include_blank: 'カテゴリーを選択' } %>
+      <%= f.label :category_id, t('activerecord.attributes.item.category_id') %>
+      <%= f.collection_select :category_id, categories, :id, :name, { include_blank: t('views.items.form.select_category') } %>
     </div>
   </div>
 
   <%# Action Buttons %>
   <div>
     <%= f.submit submit_label %>
-    <%= link_to "キャンセル", cancel_path, data: local_assigns[:cancel_data] %>
+    <%= link_to t('views.common.cancel'), cancel_path, data: local_assigns[:cancel_data] %>
   </div>
 <% end %>

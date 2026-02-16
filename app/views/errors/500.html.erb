@@ -1,8 +1,8 @@
-<div style="max-width: 600px; margin: 100px auto; text-align: center;">
-  <h1>500 Internal Server Error</h1>
-  <p>申し訳ありません。サーバーで問題が発生しました。</p>
-  <p>時間を置いてから再度お試しください。</p>
-  <div style="margin-top: 30px;">
-    <%= link_to "ホームへ戻る", root_path %>
+<div>
+  <h1><%= t("views.errors.500.title") %></h1>
+  <p><%= t("views.errors.500.message1") %></p>
+  <p><%= t("views.errors.500.message2") %></p>
+  <div>
+    <%= link_to t("views.common.home"), root_path %>
   </div>
 </div>

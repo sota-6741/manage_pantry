@@ -1,34 +1,33 @@
-<h1>アイテム詳細</h1>
+<h1><%= t("views.items.show.title") %></h1>
 
-<div style="margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
-
+<div>
   <%= turbo_frame_tag dom_id(@item, :info) do %>
     <%= render 'details', item: @item %>
   <% end %>
 </div>
 
-<div style="margin-top: 30px;">
-  <h2>変動履歴</h2>
+<div>
+  <h2><%= t("views.items.show.history_title") %></h2>
 
   <% if @inventory_logs.any? %>
-    <ul style="list-style: none; padding: 0;">
+    <ul>
       <% @inventory_logs.each do |log| %>
-        <li style="border: 1px solid #eee; padding: 10px; margin-top: 10px;">
+        <li>
           <div>
-            <span><strong>数量変更:</strong> <%= log.change_amount %></span>
-            <span style="margin-left: 20px;"><strong>理由:</strong> <%= log.human_reason %></span>
+            <span><strong><%= t("activerecord.attributes.item.quantity") %>:</strong> <%= log.change_amount %></span>
+            <span><strong>理由:</strong> <%= log.human_reason %></span>
           </div>
-          <div style="font-size: 0.9em; color: #777;">
+          <div>
             <%= log.created_at.strftime("%Y/%m/%d %H:%M") %>
           </div>
         </li>
       <% end %>
     </ul>
   <% else %>
-    <p>変動履歴はありません。</p>
+    <p><%= t("views.items.show.no_history") %></p>
   <% end %>
 </div>
 
-<div style="margin-top: 30px;">
-  <%= link_to "一覧に戻る", items_path %>
+<div>
+  <%= link_to t("views.common.back_to_list"), items_path %>
 </div>

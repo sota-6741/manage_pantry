@@ -24,3 +24,75 @@ ja:
       invalid: "は不正な値です"
       numericality:
         greater_than_or_equal_to: "は%{count}以上の値にしてください"
+
+  views:
+    common:
+      app_name: "Manage Pantory"
+      cancel: "キャンセル"
+      save: "保存"
+      edit: "編集"
+      delete: "削除"
+      confirm_delete: "本当に削除しますか？"
+      back: "戻る"
+      back_to_list: "一覧に戻る"
+      home: "ホームへ戻る"
+      logout: "ログアウト"
+    items:
+      index:
+        subtitle: "家の食材在庫管理"
+        add_item: "アイテム追加"
+        no_items: "在庫アイテムがありません"
+      show:
+        title: "アイテム詳細"
+        info_title: "アイテム情報"
+        history_title: "変動履歴"
+        no_history: "変動履歴はありません。"
+      form:
+        new_title: "アイテム登録"
+        edit_title: "アイテム編集"
+        update: "更新"
+        select_category: "カテゴリーを選択"
+        placeholders:
+          name: "例: りんご"
+    categories:
+      selector:
+        all: "すべてのカテゴリー"
+        add_category: "カテゴリー追加"
+      form:
+        placeholders:
+          name: "例: 野菜"
+        add: "追加"
+    stock_adjustments:
+      display:
+        stock: "在庫: %{quantity}"
+        change: "変更"
+      form:
+        amount: "数量"
+        error_prefix: "エラー:"
+    errors:
+      "404":
+        title: "404 Not Found"
+        message1: "お探しのページまたはアイテムが見つかりませんでした。"
+        message2: "削除されたか、アクセス権限がない可能性があります。"
+      "500":
+        title: "500 Internal Server Error"
+        message1: "申し訳ありません。サーバーで問題が発生しました。"
+        message2: "時間を置いてから再度お試しください。"
+    sessions:
+      new:
+        message: "家の食材管理"
+        google_login: "Googleでログイン"
+
+  controllers:
+    categories:
+      created: "カテゴリー「%{name}」を追加しました"
+      failed: "カテゴリーの追加に失敗しました: %{errors}"
+    items:
+      created: "「%{name}」を登録しました"
+      failed_create: "登録に失敗しました: %{errors}"
+      updated: "「%{name}」を更新しました"
+      failed_update: "更新に失敗しました"
+      deleted: "アイテムを削除しました"
+    stock_adjustments:
+      updated: "「%{name}」の在庫を更新しました"
+      failed: "在庫の更新に失敗しました: %{errors}"

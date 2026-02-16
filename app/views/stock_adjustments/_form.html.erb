@@ -3,7 +3,7 @@
   <%# エラーメッセージ表示 %>
   <% if local_assigns.has_key?(:error_message) && error_message.present? %>
     <div style="color: red; margin-bottom: 10px;">
-      <strong>エラー:</strong> <%= error_message %>
+      <strong><%= t("views.stock_adjustments.form.error_prefix") %></strong> <%= error_message %>
     </div>
   <% end %>
 
@@ -21,13 +21,13 @@
 
   <%# 数量入力 %>
   <div style="margin-bottom: 12px;">
-    <%= f.label :amount, '数量' %>
+    <%= f.label :amount, t("views.stock_adjustments.form.amount") %>
     <%= f.number_field :amount, value: 1, style: "width: 60px;" %>
   </div>
 
   <%# アクションボタン %>
   <div>
-    <%= f.submit "保存" %>
-    <%= link_to "キャンセル", stock_item_path(item), data: { turbo_frame: dom_id(item, :adjustment) } %>
+    <%= f.submit t("views.common.save") %>
+    <%= link_to t("views.common.cancel"), stock_item_path(item), data: { turbo_frame: dom_id(item, :adjustment) } %>
   </div>
 <% end %>

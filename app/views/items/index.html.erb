@@ -1,19 +1,11 @@
-<div style="background-image: linear-gradient(114.78856297515668deg, rgb(240, 253, 244) 0%, rgb(255, 255, 255) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)">
+<div>
   <div>
     <div>
       
       <%# Header %>
       <div>
-        <div>
-          <p>
-            Manage Pantory
-          </p>
-        </div>
-        <div>
-          <p>
-            家の食材在庫管理
-          </p>
-        </div>
+        <h1><%= t("views.items.index.title", default: t("views.common.app_name")) %></h1>
+        <p><%= t("views.items.index.subtitle") %></p>
       </div>
 
       <%# Category Manager %>
@@ -23,9 +15,7 @@
 
       <%# Add Item Button %>
       <div>
-        <%= link_to new_item_path do %>
-          <span>アイテム追加</span>
-        <% end %>
+        <%= link_to t("views.items.index.add_item"), new_item_path %>
       </div>
 
       <%# Inventory List %>
@@ -35,11 +25,7 @@
             <%= render @items %>
           </div>
         <% else %>
-          <div>
-            <p>
-              在庫アイテムがありません
-            </p>
-          </div>
+          <p><%= t("views.items.index.no_items") %></p>
         <% end %>
       </div>
 
