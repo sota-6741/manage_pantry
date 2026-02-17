@@ -5,9 +5,13 @@
 <div class="login-container">
   <section class="login-background">
     <article class="login-card">
-      <div class="login-logo-wrapper" style="margin-top: 32px;">
-        <%= image_tag "login_page/app_icon.png", alt: "Manage Pantory アプリケーションアイコン", class: "login-app-icon" %>
-      </div>
+      <header class="login-header">
+        <div class="login-logo-wrapper">
+          <%= image_tag "login_page/app_icon.png", alt: "Manage Pantory アプリケーションアイコン", class: "login-app-icon" %>
+        </div>
+        <h1 class="login-title">Manage Pantory</h1>
+        <p class="login-subtitle">家の食材管理</p>
+      </header>
 
       <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: false }, class: "google-login-button", aria: { label: t("views.sessions.new.google_login") } do %>
         <%= image_tag "login_page/google_icon.png", alt: "Google ロゴ", class: "google-icon" %>

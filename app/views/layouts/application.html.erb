@@ -20,20 +20,22 @@
     <div class="main-content">
       <%= render "shared/flash" %>
 
-      <header class="app-header">
-        <h1 class="app-title"><%= link_to t("views.common.app_name"), root_path, style: "text-decoration: none; color: inherit;" %></h1>
-        <p class="app-subtitle"><%= t("views.items.index.subtitle") %></p>
-        
-        <% if user_signed_in? %>
-          <div style="margin-top: 16px; display: flex; align-items: center; gap: 8px;">
-            <% if current_user.image.present? %>
-              <%= image_tag current_user.image, size: "28x28", style: "border-radius: 50%;" %>
-            <% end %>
-            <span style="font-size: 14px; color: var(--color-subtitle);"><%= current_user.name %></span>
-            <%= link_to t("views.common.logout"), destroy_user_session_path, data: { turbo_method: :delete }, style: "font-size: 14px; color: var(--color-footer-text);" %>
-          </div>
-        <% end %>
-      </header>
+      <% unless controller_name == 'sessions' && action_name == 'new' && controller_path.start_with?('devise/') %>
+        <header class="app-header">
+          <h1 class="app-title"><%= link_to t("views.common.app_name"), root_path, style: "text-decoration: none; color: inherit;" %></h1>
+          <p class="app-subtitle"><%= t("views.items.index.subtitle") %></p>
+          
+          <% if user_signed_in? %>
+            <div style="margin-top: 16px; display: flex; align-items: center; gap: 8px;">
+              <% if current_user.image.present? %>
+                <%= image_tag current_user.image, size: "28x28", style: "border-radius: 50%;" %>
+              <% end %>
+              <span style="font-size: 14px; color: var(--color-subtitle);"><%= current_user.name %></span>
+              <%= link_to t("views.common.logout"), destroy_user_session_path, data: { turbo_method: :delete }, style: "font-size: 14px; color: var(--color-footer-text);" %>
+            </div>
+          <% end %>
+        </header>
+      <% end %>
 
       <main>
         <%= yield %>
