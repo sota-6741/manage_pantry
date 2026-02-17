@@ -20,16 +20,6 @@ class Item < ApplicationRecord
     greater_than_or_equal_to: MIN_QUANTITY
   }
 
-  private
-
-  def name_uniqueness
-    return unless user_id
-
-    if Item.where(user_id: user_id, name: name).where.not(id: id).exists?
-      errors.add(:base, "「#{name}」はすでに登録されています。")
-    end
-  end
-
   # 状態管理メソッド
   def expired?
     # 期限切れ判定
@@ -45,15 +35,25 @@ class Item < ApplicationRecord
     quantity.positive?
   end
 
+  def update_stock!(delta)
+    apply_inventory_change!(delta)
+    save!
+  end
+
+  private
+
   def apply_inventory_change!(delta)
     raise StandardError, "在庫不足" if quantity + delta < MIN_QUANTITY
     self.quantity += delta
     self
   end
 
-  def update_stock!(delta)
-    apply_inventory_change!(delta)
-    save!
+  def name_uniqueness
+    return unless user_id
+
+    if Item.where(user_id: user_id, name: name).where.not(id: id).exists?
+      errors.add(:base, "「#{name}」はすでに登録されています。")
+    end
   end
 
   class << self
