@@ -1,5 +1,9 @@
 /*
  *= require variables
+ *= require items
+ *= require stock_adjustments
+ *= require categories
+ *= require flash
  *= require_self
  */
 
@@ -22,7 +26,19 @@ body {
 }
 
 .app-header {
-  margin-bottom: 32px;
+  margin-bottom: 32px; /* Revert to 32px as per Figma gap likely */
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Matches Figma gap 7.997px */
 }
 
 .app-title {
@@ -30,14 +46,47 @@ body {
   font-size: 30px;
   line-height: 36px;
   color: var(--color-text-green);
-  margin: 0 0 8px 0;
+  margin: 0;
   font-weight: 400;
 }
 
+.app-title-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .app-subtitle {
+  font-family: var(--font-arimo);
   font-size: 16px;
   line-height: 24px;
   color: var(--color-subtitle);
   margin: 0;
   font-weight: 400;
+}
+
+.user-profile {
+  /* Position top right relative to content */
+  margin-left: 16px; /* Spacing from text */
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.user-avatar {
+  border-radius: 50%;
+  display: block; /* Removes inline gap */
+}
+
+.user-logout {
+  font-size: 12px;
+  color: var(--color-footer-text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.user-logout:hover {
+  text-decoration: underline;
+  color: var(--color-subtitle);
 }

@@ -1,7 +1,40 @@
-<div id="flash">
+<div id="flash" class="flash-container">
   <% flash.each do |type, message| %>
-    <div>
-      <%= message %>
+    <div class="flash-message flash-<%= type %>" data-controller="flash-auto-dismiss">
+      <span><%= message %></span>
     </div>
   <% end %>
 </div>
+
+<script>
+  // Simple auto-dismiss logic since we don't have a full JS framework setup evident
+  document.addEventListener("turbo:load", () => {
+    const flashes = document.querySelectorAll('.flash-message');
+    flashes.forEach(flash => {
+      // Prevent double-binding if multiple turbo:loads happen
+      if (flash.dataset.dismissed) return;
+      flash.dataset.dismissed = "true";
+
+      setTimeout(() => {
+        flash.classList.add('fade-out');
+        // Remove from DOM after transition
+        setTimeout(() => {
+          flash.remove();
+        }, 300); // Matches transition duration
+      }, 3000); // 3 seconds visible
+    });
+  });
+  
+  // Fallback for initial load if not using Turbo or first paint
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+     const flashes = document.querySelectorAll('.flash-message');
+      flashes.forEach(flash => {
+        if (flash.dataset.dismissed) return;
+        flash.dataset.dismissed = "true";
+        setTimeout(() => {
+          flash.classList.add('fade-out');
+          setTimeout(() => flash.remove(), 300);
+        }, 3000);
+      });
+  }
+</script>

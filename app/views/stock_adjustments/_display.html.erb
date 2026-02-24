@@ -1,4 +1,13 @@
-<div>
-  <span><%= t("views.stock_adjustments.display.stock", quantity: display_quantity(item.quantity)) %></span>
-  <%= link_to t("views.stock_adjustments.display.change"), new_item_stock_adjustment_path(item), data: { turbo_frame: dom_id(item, :adjustment) } %>
+<div class="item-quantity-container">
+  <div class="item-quantity-value">
+    <%= image_tag "icons/cube.svg", size: "20x20", alt: "Stock" %>
+    <span><%= display_quantity(item.quantity) %></span>
+  </div>
+  
+  <%= link_to new_item_stock_adjustment_path(item), 
+      data: { turbo_frame: dom_id(item, :adjustment) }, 
+      class: "btn-change-stock" do %>
+    <%= image_tag "icons/edit_white.svg", size: "16x16", alt: "" %>
+    <span><%= t("views.stock_adjustments.display.change") %></span>
+  <% end %>
 </div>

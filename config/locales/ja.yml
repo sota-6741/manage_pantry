@@ -68,6 +68,8 @@ ja:
         change: "変更"
       form:
         amount: "数量"
+        current: "現在"
+        after: "変更後"
         error_prefix: "エラー:"
     errors:
       "404":

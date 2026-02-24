@@ -1,33 +1,137 @@
-<%= form_with(scope: :stock_adjustment, url: item_stock_adjustments_path(item), method: :post) do |f| %>
+<%= form_with(scope: :stock_adjustment, url: item_stock_adjustments_path(item), method: :post, class: "stock-adjustment-container", id: "stock_adjustment_form_#{item.id}") do |f| %>
 
-  <%# エラーメッセージ表示 %>
+  <%# Error Message %>
   <% if local_assigns.has_key?(:error_message) && error_message.present? %>
-    <div style="color: red; margin-bottom: 10px;">
+    <div class="error-message">
       <strong><%= t("views.stock_adjustments.form.error_prefix") %></strong> <%= error_message %>
     </div>
   <% end %>
 
-  <%# 理由選択 %>
-  <div style="margin-bottom: 12px;">
-    <%= f.radio_button :reason, 'purchase', checked: true %>
-    <%= f.label :reason_purchase, t("activerecord.attributes.inventory_log.reasons.purchase") %>
-
-    <%= f.radio_button :reason, 'consume' %>
-    <%= f.label :reason_consume, t("activerecord.attributes.inventory_log.reasons.consume") %>
-
-    <%= f.radio_button :reason, 'dispose' %>
-    <%= f.label :reason_dispose, t("activerecord.attributes.inventory_log.reasons.dispose") %>
+  <%# Stock Status %>
+  <div class="stock-status-row">
+    <span><%= t("views.stock_adjustments.form.current") %>:</span>
+    <span class="stock-status-value" data-target="current-stock"><%= display_quantity(item.quantity) %></span>
+    <span>→ <%= t("views.stock_adjustments.form.after") %>:</span>
+    <span class="stock-status-value" data-target="future-stock"><%= display_quantity(item.quantity) %></span>
   </div>
 
-  <%# 数量入力 %>
-  <div style="margin-bottom: 12px;">
-    <%= f.label :amount, t("views.stock_adjustments.form.amount") %>
-    <%= f.number_field :amount, value: 1, style: "width: 60px;" %>
+  <%# Quantity Control %>
+  <div class="quantity-control-row">
+    <button type="button" class="btn-quantity-control btn-decrease" data-action="decrement">
+      <%= image_tag "icons/minus_white.svg", size: "24x24", alt: "-" %>
+    </button>
+
+    <div class="quantity-display">
+      <%= f.number_field :amount, value: 0, class: "quantity-input", data: { target: "amount" } %>
+    </div>
+
+    <button type="button" class="btn-quantity-control btn-increase" data-action="increment">
+      <%= image_tag "icons/plus_white.svg", size: "24x24", alt: "+" %>
+    </button>
   </div>
 
-  <%# アクションボタン %>
-  <div>
-    <%= f.submit t("views.common.save") %>
-    <%= link_to t("views.common.cancel"), stock_item_path(item), data: { turbo_frame: dom_id(item, :adjustment) } %>
+  <%# Reason Selector %>
+  <div class="reason-selector-row">
+    <%# Purchase %>
+    <%= f.radio_button :reason, 'purchase', checked: true, class: "reason-radio", id: "reason_purchase_#{item.id}" %>
+    <label for="reason_purchase_<%= item.id %>" class="reason-label">
+      <%= image_tag "icons/cart_white.svg", class: "icon-active", style: "display: none;" %>
+      <%= image_tag "icons/cart_dark.svg", class: "icon-inactive", style: "display: block;" %>
+      <span><%= t("activerecord.attributes.inventory_log.reasons.purchase") %></span>
+    </label>
+
+    <%# Consume %>
+    <%= f.radio_button :reason, 'consume', class: "reason-radio", id: "reason_consume_#{item.id}" %>
+    <label for="reason_consume_<%= item.id %>" class="reason-label">
+      <%= image_tag "icons/cutlery_white.svg", class: "icon-active", style: "display: none;" %>
+      <%= image_tag "icons/cutlery_dark.svg", class: "icon-inactive", style: "display: block;" %>
+      <span><%= t("activerecord.attributes.inventory_log.reasons.consume") %></span>
+    </label>
+
+    <%# Dispose %>
+    <%= f.radio_button :reason, 'dispose', class: "reason-radio", id: "reason_dispose_#{item.id}" %>
+    <label for="reason_dispose_<%= item.id %>" class="reason-label">
+      <%= image_tag "icons/trash_white.svg", class: "icon-active", style: "display: none;" %>
+      <%= image_tag "icons/trash_dark.svg", class: "icon-inactive", style: "display: block;" %>
+      <span><%= t("activerecord.attributes.inventory_log.reasons.dispose") %></span>
+    </label>
+  </div>
+
+  <%# Action Buttons %>
+  <div class="action-row">
+    <button type="submit" class="btn-save">
+      <%= image_tag "icons/save_white.svg", size: "20x20", alt: "" %>
+      <span><%= t("views.common.save") %></span>
+    </button>
+    
+    <%= link_to stock_item_path(item), data: { turbo_frame: dom_id(item, :adjustment) }, class: "btn-cancel" do %>
+      <%= image_tag "icons/close_gray.svg", size: "20x20", alt: "Cancel" %>
+    <% end %>
   </div>
 <% end %>
+
+<script>
+  (function() {
+    const formId = "stock_adjustment_form_<%= item.id %>";
+    const form = document.getElementById(formId);
+
+    if (form) {
+      const amountInput = form.querySelector('[data-target="amount"]');
+      const currentStockElem = form.querySelector('[data-target="current-stock"]');
+      const futureStockElem = form.querySelector('[data-target="future-stock"]');
+      const radios = form.querySelectorAll('input[name="stock_adjustment[reason]"]');
+      const decreaseBtn = form.querySelector('[data-action="decrement"]');
+      const increaseBtn = form.querySelector('[data-action="increment"]');
+
+      const updateFutureStock = () => {
+        const currentStock = parseFloat(currentStockElem.textContent);
+        const amount = parseFloat(amountInput.value) || 0;
+        
+        let change = amount;
+        let selectedReason = 'purchase'; // Default
+        
+        radios.forEach(radio => {
+          if (radio.checked) {
+            selectedReason = radio.value;
+          }
+        });
+
+        if (selectedReason === 'consume' || selectedReason === 'dispose') {
+          change = -amount;
+        }
+
+        const futureStock = currentStock + change;
+        futureStockElem.textContent = Number.isInteger(futureStock) ? futureStock : futureStock.toFixed(1).replace(/\.0+$/, '');
+      };
+
+      const increment = (e) => {
+        e.preventDefault();
+        amountInput.value = (parseInt(amountInput.value) || 0) + 1;
+        updateFutureStock();
+      };
+
+      const decrement = (e) => {
+        e.preventDefault();
+        const currentVal = parseInt(amountInput.value) || 0;
+        if (currentVal > 0) {
+            amountInput.value = currentVal - 1;
+        } else {
+             amountInput.value = 0; // Prevent negative input visually if desired, though logic supports negative change
+        }
+        updateFutureStock();
+      };
+
+      // Event Listeners
+      if (decreaseBtn) decreaseBtn.addEventListener('click', decrement);
+      if (increaseBtn) increaseBtn.addEventListener('click', increment);
+      if (amountInput) amountInput.addEventListener('input', updateFutureStock);
+      
+      radios.forEach(radio => {
+        radio.addEventListener('change', updateFutureStock);
+      });
+
+      // Initial calculation
+      updateFutureStock();
+    }
+  })();
+</script>

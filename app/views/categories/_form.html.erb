@@ -1,8 +1,28 @@
-<%= form_with(model: category) do |f| %>
-  <div>
-    <%= f.label :name, t('activerecord.attributes.category.name') %>
-    <%= f.text_field :name, placeholder: t('views.categories.form.placeholders.name'), autofocus: true %>
-    <%= f.submit t('views.categories.form.add') %>
-    <%= link_to t('views.common.cancel'), items_path %>
+<%= form_with(model: category, url: categories_path, method: :post, class: "category-form-container") do |f| %>
+  <%# Error Message %>
+  <% if category.errors.any? %>
+    <div style="color: var(--color-alert-red); margin-bottom: 8px; font-size: 14px;">
+      <%= category.errors.full_messages.join(', ') %>
+    </div>
+  <% end %>
+
+  <%# Static Selector Display %>
+  <div class="category-static-selector">
+    <%= t('views.categories.selector.all') %>
+  </div>
+
+  <%# Input Row %>
+  <div class="category-input-row">
+    <div class="category-input-wrapper">
+      <%= f.text_field :name, class: "category-input", placeholder: "カテゴリー名", autofocus: true, autocomplete: "off" %>
+    </div>
+    
+    <%= button_tag type: "submit", class: "btn-category-action btn-category-submit" do %>
+      <%= image_tag "icons/plus_white.svg", size: "20x20", alt: t("views.common.save") %>
+    <% end %>
+
+    <%= link_to items_path, class: "btn-category-action btn-category-cancel", data: { turbo_frame: "category_selector" } do %>
+      <%= image_tag "icons/close_gray.svg", size: "20x20", alt: t("views.common.cancel") %>
+    <% end %>
   </div>
 <% end %>

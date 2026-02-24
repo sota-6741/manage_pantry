@@ -9,6 +9,7 @@
   --color-bg-start: #f0fdf4;
   --color-bg-end: #ffffff;
   --color-text-dark: #0a0a0a;
+  --color-alert-red: #ef4444;
 
   /* Shadows */
   --shadow-card: 0px 10px 15px 0px rgba(0, 0, 0, 0.1), 0px 4px 6px 0px rgba(0, 0, 0, 0.1);

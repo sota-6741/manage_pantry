@@ -1,0 +1,206 @@
+/* app/assets/stylesheets/stock_adjustments.css */
+
+.stock-adjustment-container {
+  background-color: #f0fdf4;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.stock-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px; /* Reduced gap to fit better */
+  height: 28px;
+  color: #4a5565;
+  font-family: var(--font-noto);
+  font-size: 14px;
+}
+
+.stock-status-value {
+  font-family: var(--font-noto); /* Inter:Bold */
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  color: #4a5565;
+}
+
+.quantity-control-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-quantity-control {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-quantity-control:hover {
+  opacity: 0.9;
+}
+
+.btn-decrease {
+  background-color: #fb2c36;
+}
+
+.btn-increase {
+  background-color: #00c950;
+}
+
+.quantity-display {
+  flex-grow: 1; /* Allow it to take up space between buttons */
+  max-width: 120px; /* But don't let it get too wide */
+  height: 51px;
+  background-color: white;
+  border: 1.585px solid #d1d5dc;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hide default number input arrows */
+.quantity-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  text-align: center;
+  font-family: var(--font-noto); /* Inter:Bold */
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--color-text-dark);
+  background: transparent;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.reason-selector-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px; /* Slightly tighter gap to fit 3 items comfortably */
+  width: 100%;
+}
+
+/* Radio button styling hack: hide radio, style label */
+.reason-radio {
+  display: none;
+}
+
+.reason-label {
+  height: 37px;
+  flex: 1; /* Make labels equal width */
+  min-width: 0; /* Allow shrinking below content size if needed */
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: var(--font-noto); /* Inter:Medium */
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  border: 0.5px solid #d1d5dc;
+  background-color: white;
+  color: var(--color-button-text);
+  padding: 0 4px;
+  transition: all 0.2s;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.reason-label .icon-active {
+  display: none;
+}
+
+.reason-label .icon-inactive {
+  display: block;
+}
+
+/* Checked state */
+.reason-radio:checked + .reason-label {
+  background-color: #00c950;
+  color: white;
+  border-color: #00c950;
+}
+
+.reason-radio:checked + .reason-label .icon-active {
+  display: block;
+}
+
+.reason-radio:checked + .reason-label .icon-inactive {
+  display: none;
+}
+
+.action-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-save {
+  flex-grow: 1;
+  background-color: #00c950;
+  border-radius: 10px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: white;
+  border: none;
+  font-family: var(--font-noto);
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-save:hover {
+  opacity: 0.9;
+}
+
+.btn-cancel {
+  width: 52px;
+  height: 40px;
+  background-color: #d1d5dc; /* Gray background from Figma */
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-cancel:hover {
+  opacity: 0.9;
+}
+
+.error-message {
+  color: #fb2c36;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 8px;
+}
