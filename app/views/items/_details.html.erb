@@ -1,13 +1,54 @@
-<h2><%= t("views.items.show.info_title") %></h2>
-
-<div>
-  <p><strong><%= t("activerecord.attributes.item.name") %>:</strong> <%= item.name %></p>
-  <p><strong><%= t("activerecord.attributes.item.quantity") %>:</strong> <%= display_quantity(item.quantity) %></p>
-  <p><strong><%= t("activerecord.attributes.item.expiration_date") %>:</strong> <%= format_date(item.expiration_date) %></p>
-  <p><strong><%= t("activerecord.attributes.item.category_id") %>:</strong> <%= item.category&.name || "未分類" %></p>
-</div>
-
-<div>
-  <%= link_to t("views.common.edit"), edit_item_path(item), data: { turbo_frame: dom_id(item, :info) } %>
-  <%= button_to t("views.common.delete"), item_path(item), method: :delete, data: { confirm: t("views.common.confirm_delete") } %>
+<%# app/views/items/_details.html.erb %>
+<div class="info-section">
+  <h2 class="section-title text-green">
+    <div class="section-icon">
+      <%= image_tag "icons/item_info_green.svg", size: "20x20", alt: "" %>
+    </div>
+    <%= t("views.items.show.info_title") %>
+  </h2>
+  
+  <div class="info-list">
+    <div class="info-card">
+      <div class="info-icon"><%= image_tag "icons/cube.svg", size: "20x20", alt: "" %></div>
+      <div class="info-text">
+        <span class="info-label"><%= t("activerecord.attributes.item.name") %></span>
+        <span class="info-value"><%= item.name %></span>
+      </div>
+    </div>
+    
+    <div class="info-card">
+      <div class="info-icon"><%= image_tag "icons/cube.svg", size: "20x20", alt: "" %></div>
+      <div class="info-text">
+        <span class="info-label"><%= t("activerecord.attributes.item.quantity") %></span>
+        <span class="info-value"><%= display_quantity(item.quantity) %></span>
+      </div>
+    </div>
+    
+    <div class="info-card">
+      <div class="info-icon"><%= image_tag "icons/calendar.svg", size: "20x20", alt: "" %></div>
+      <div class="info-text">
+        <span class="info-label"><%= t("activerecord.attributes.item.expiration_date") %></span>
+        <span class="info-value"><%= format_date(item.expiration_date) %></span>
+      </div>
+    </div>
+    
+    <div class="info-card">
+      <div class="info-icon"><%= image_tag "icons/tag.svg", size: "20x20", alt: "" %></div>
+      <div class="info-text">
+        <span class="info-label"><%= t("activerecord.attributes.item.category_id") %></span>
+        <span class="info-value"><%= item.category&.name || "なし" %></span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="action-buttons">
+    <%= link_to edit_item_path(item), class: "btn-edit", data: { turbo_frame: dom_id(item, :info) } do %>
+      <%= image_tag "icons/edit_white.svg", size: "16x16", alt: "" %>
+      <%= t("views.common.edit") %>
+    <% end %>
+    <%= button_to item_path(item), method: :delete, form_class: "form-delete", class: "btn-delete", data: { turbo: false, confirm: t("views.common.confirm_delete") } do %>
+      <%= image_tag "icons/trash_white.svg", size: "16x16", alt: "" %>
+      <%= t("views.common.delete") %>
+    <% end %>
+  </div>
 </div>

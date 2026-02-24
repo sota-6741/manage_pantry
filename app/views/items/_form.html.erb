@@ -1,39 +1,62 @@
-<% if local_assigns[:title] %>
-  <h2><%= title %></h2>
-<% end %>
-
-<%= form_with(model: item) do |f| %>
-  <div>
+<%# app/views/items/_form.html.erb %>
+<%= form_with(model: item, class: "item-form") do |f| %>
+  <div class="form-fields">
     <%# Item Name %>
-    <div>
-      <%= f.label :name, t('activerecord.attributes.item.name') %>
-      <%= f.text_field :name, placeholder: t('views.items.form.placeholders.name') %>
+    <div class="form-group">
+      <div class="form-label-wrapper">
+        <div class="form-label-icon">
+          <%= image_tag "icons/cube_dark.svg", size: "16x16", alt: "" %>
+        </div>
+        <%= f.label :name, t('activerecord.attributes.item.name', default: '商品名'), class: "form-label" %>
+      </div>
+      <%= f.text_field :name, placeholder: t('views.items.form.placeholders.name', default: '例: りんご'), class: "form-input" %>
     </div>
 
-    <%# Quantity (only for new records if needed) %>
+    <%# Quantity %>
     <% if local_assigns[:show_quantity] %>
-      <div>
-        <%= f.label :quantity, t('activerecord.attributes.item.quantity') %>
-        <%= f.number_field :quantity, placeholder: "1" %>
+      <div class="form-group">
+        <div class="form-label-wrapper">
+          <div class="form-label-icon">
+            <%= image_tag "icons/cube_dark.svg", size: "16x16", alt: "" %>
+          </div>
+          <%= f.label :quantity, t('activerecord.attributes.item.quantity', default: '商品数'), class: "form-label" %>
+        </div>
+        <%= f.number_field :quantity, placeholder: "1", class: "form-input" %>
       </div>
     <% end %>
 
     <%# Expiration Date %>
-    <div>
-      <%= f.label :expiration_date, t('activerecord.attributes.item.expiration_date') %>
-      <%= f.date_field :expiration_date %>
+    <div class="form-group">
+      <div class="form-label-wrapper">
+        <div class="form-label-icon">
+          <%= image_tag "icons/calendar_dark.svg", size: "16x16", alt: "" %>
+        </div>
+        <%= f.label :expiration_date, t('activerecord.attributes.item.expiration_date', default: '賞味期限'), class: "form-label" %>
+      </div>
+      <%= f.date_field :expiration_date, class: "form-input" %>
     </div>
 
     <%# Category %>
-    <div>
-      <%= f.label :category_id, t('activerecord.attributes.item.category_id') %>
-      <%= f.collection_select :category_id, categories, :id, :name, { include_blank: t('views.items.form.select_category') } %>
+    <div class="form-group">
+      <div class="form-label-wrapper">
+        <div class="form-label-icon">
+          <%= image_tag "icons/tag_dark.svg", size: "16x16", alt: "" %>
+        </div>
+        <%= f.label :category_id, t('activerecord.attributes.item.category_id', default: 'カテゴリー'), class: "form-label" %>
+      </div>
+      <%= f.collection_select :category_id, categories, :id, :name, { include_blank: t('views.items.form.select_category', default: 'なし') }, class: "form-input form-select" %>
     </div>
   </div>
 
   <%# Action Buttons %>
-  <div>
-    <%= f.submit submit_label %>
-    <%= link_to t('views.common.cancel'), cancel_path, data: local_assigns[:cancel_data] %>
+  <div class="form-actions">
+    <%= button_tag type: 'submit', class: "btn-submit-large" do %>
+      <%= image_tag "icons/save_white.svg", size: "20x20", alt: "" %>
+      <%= submit_label %>
+    <% end %>
+    <%= link_to cancel_path, data: local_assigns[:cancel_data], class: "btn-cancel-large" do %>
+      <%= image_tag "icons/close_dark.svg", size: "18x18", alt: "" %>
+      <span class="cancel-text"><%= t('views.common.cancel', default: 'キャンセル') %></span>
+    <% end %>
   </div>
 <% end %>

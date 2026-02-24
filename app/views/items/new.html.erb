@@ -1,7 +1,15 @@
-<div>
-  <div>
-    <div>
-      <%= render 'form', item: @item, categories: @categories, title: t('views.items.form.new_title'), submit_label: t('views.common.save'), cancel_path: items_path, show_quantity: true %>
+<%# app/views/items/new.html.erb %>
+<div class="modal-overlay">
+  <div class="item-form-modal">
+    <div class="modal-header">
+      <h1 class="modal-title"><%= t('views.items.form.new_title', default: 'アイテム登録') %></h1>
+      <%= link_to items_path, class: "modal-close-btn" do %>
+        <%= image_tag "icons/close_gray.svg", alt: "Close" %>
+      <% end %>
+    </div>
+    
+    <div class="modal-scrollable-content">
+      <%= render 'form', item: @item, categories: @categories, submit_label: t('views.common.save', default: '保存'), cancel_path: items_path, show_quantity: true %>
     </div>
   </div>
 </div>
