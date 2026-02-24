@@ -22,8 +22,7 @@ ja:
       blank: "を入力してください"
       taken: "はすでに登録されています"
       invalid: "は不正な値です"
-      numericality:
-        greater_than_or_equal_to: "は%{count}以上の値にしてください"
+      greater_than_or_equal_to: "は%{count}以上の値にしてください"
 
   views:
     common:
@@ -91,9 +90,9 @@ ja:
       failed: "カテゴリーの追加に失敗しました: %{errors}"
     items:
       created: "「%{name}」を登録しました"
-      failed_create: "登録に失敗しました: %{errors}"
+      failed_create: "入力内容にエラーがあります"
       updated: "「%{name}」を更新しました"
-      failed_update: "更新に失敗しました"
+      failed_update: "入力内容にエラーがあります"
       deleted: "アイテムを削除しました"
     stock_adjustments:
       updated: "「%{name}」の在庫を更新しました"

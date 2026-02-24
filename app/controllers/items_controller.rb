@@ -24,7 +24,7 @@ class ItemsController < ApplicationController
   rescue ActiveRecord::RecordInvalid => e
     @item = e.record
     @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
-    flash.now[:alert] = t("controllers.items.failed_create", errors: @item.errors.full_messages.join('、'))
+    flash.now[:alert] = t("controllers.items.failed_create")
     render :new, status: :unprocessable_entity
   end
 

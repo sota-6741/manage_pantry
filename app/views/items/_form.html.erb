@@ -1,5 +1,15 @@
 <%# app/views/items/_form.html.erb %>
 <%= form_with(model: item, class: "item-form") do |f| %>
+  <% if item.errors.any? %>
+    <div class="form-errors">
+      <ul class="error-list">
+        <% item.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <div class="form-fields">
     <%# Item Name %>
     <div class="form-group">
@@ -19,12 +29,11 @@
           <div class="form-label-icon">
             <%= image_tag "icons/cube_dark.svg", size: "16x16", alt: "" %>
           </div>
-          <%= f.label :quantity, t('activerecord.attributes.item.quantity', default: '商品数'), class: "form-label" %>
-        </div>
-        <%= f.number_field :quantity, placeholder: "1", class: "form-input" %>
-      </div>
-    <% end %>
-
+                  <%= f.label :quantity, t('activerecord.attributes.item.quantity', default: '商品数'), class: "form-label" %>
+                </div>
+                <%= f.number_field :quantity, placeholder: "1", min: 0, class: "form-input" %>
+              </div>
+            <% end %>
     <%# Expiration Date %>
     <div class="form-group">
       <div class="form-label-wrapper">
@@ -51,11 +60,11 @@
   <%# Action Buttons %>
   <div class="form-actions">
     <%= button_tag type: 'submit', class: "btn-submit-large" do %>
-      <%= image_tag "icons/save_white.svg", size: "20x20", alt: "" %>
+      <%= image_tag "icons/save_white.svg", size: "16x16", alt: "" %>
       <%= submit_label %>
     <% end %>
     <%= link_to cancel_path, data: local_assigns[:cancel_data], class: "btn-cancel-large" do %>
-      <%= image_tag "icons/close_dark.svg", size: "18x18", alt: "" %>
+      <%= image_tag "icons/close_dark.svg", size: "16x16", alt: "" %>
       <span class="cancel-text"><%= t('views.common.cancel', default: 'キャンセル') %></span>
     <% end %>
   </div>
