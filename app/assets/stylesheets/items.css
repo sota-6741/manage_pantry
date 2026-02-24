@@ -428,6 +428,7 @@
   border-radius: 10px;
   height: 40px;
   width: 100%;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -680,4 +681,50 @@
 
 .btn-submit-large:hover, .btn-cancel-large:hover {
   opacity: 0.9;
+}
+
+/* Confirm Modal (HTML5 Dialog) */
+.confirm-modal {
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  margin: auto;
+}
+
+.confirm-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.confirm-modal-content {
+  background: white;
+  width: 320px;
+  border-radius: 10px;
+  box-shadow: 0px 20px 25px 0px rgba(0,0,0,0.1), 0px 8px 10px 0px rgba(0,0,0,0.1);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.confirm-title {
+  font-family: var(--font-noto);
+  font-weight: 500;
+  font-size: 18px;
+  color: #0a0a0a;
+  margin: 0;
+}
+
+.confirm-message {
+  font-family: var(--font-noto);
+  font-size: 14px;
+  color: var(--color-text-dark);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.confirm-actions {
+  padding-top: 8px;
 }

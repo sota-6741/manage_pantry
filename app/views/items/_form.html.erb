@@ -29,12 +29,11 @@
           <div class="form-label-icon">
             <%= image_tag "icons/cube_dark.svg", size: "16x16", alt: "" %>
           </div>
-                  <%= f.label :quantity, t('activerecord.attributes.item.quantity', default: '商品数'), class: "form-label" %>
-                </div>
-                <%= f.number_field :quantity, placeholder: "1", min: 0, class: "form-input" %>
-              </div>
-            <% end %>
-    <%# Expiration Date %>
+                          <%= f.label :quantity, t('activerecord.attributes.item.quantity', default: '商品数'), class: "form-label" %>
+                        </div>
+                        <%= f.number_field :quantity, value: (f.object.quantity % 1 == 0 ? f.object.quantity.to_i : f.object.quantity), placeholder: "1", min: 0, step: "any", class: "form-input" %>
+                      </div>
+                    <% end %>    <%# Expiration Date %>
     <div class="form-group">
       <div class="form-label-wrapper">
         <div class="form-label-icon">

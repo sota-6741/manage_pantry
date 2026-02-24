@@ -46,9 +46,28 @@
       <%= image_tag "icons/edit_white.svg", size: "16x16", alt: "" %>
       <%= t("views.common.edit") %>
     <% end %>
-    <%= button_to item_path(item), method: :delete, form_class: "form-delete", class: "btn-delete", data: { turbo: false, confirm: t("views.common.confirm_delete") } do %>
+    <button type="button" class="btn-delete" onclick="document.getElementById('delete-confirm-dialog-<%= item.id %>').showModal()">
       <%= image_tag "icons/trash_white.svg", size: "16x16", alt: "" %>
       <%= t("views.common.delete") %>
-    <% end %>
+    </button>
   </div>
 </div>
+
+<dialog id="delete-confirm-dialog-<%= item.id %>" class="confirm-modal">
+  <div class="confirm-modal-content">
+    <h3 class="confirm-title"><%= t("views.common.confirm_delete") %></h3>
+    <p class="confirm-message">
+      「<strong><%= item.name %></strong>」を削除してもよろしいですか？<br>
+      この操作は取り消せません。
+    </p>
+    <div class="form-actions confirm-actions">
+      <%= button_to item_path(item), method: :delete, data: { turbo: false }, form_class: "form-delete", class: "btn-delete" do %>
+        <%= image_tag "icons/trash_white.svg", size: "16x16", alt: "" %>
+        <%= t("views.common.delete") %>
+      <% end %>
+      <button type="button" class="btn-cancel-large" onclick="document.getElementById('delete-confirm-dialog-<%= item.id %>').close()">
+        <%= t("views.common.cancel") %>
+      </button>
+    </div>
+  </div>
+</dialog>

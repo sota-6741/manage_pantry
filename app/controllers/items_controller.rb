@@ -14,7 +14,7 @@ class ItemsController < ApplicationController
   end
 
   def new
-    @item = current_user.items.new
+    @item = current_user.items.new(quantity: 1)
     @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
   end
 
