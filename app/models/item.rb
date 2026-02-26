@@ -58,9 +58,19 @@ class Item < ApplicationRecord
 
   class << self
     def ordered_by_urgency
-      near_expiration = near_expiration_items
-      other = where.not(id: near_expiration.select(:id))
-      near_expiration + other
+      today = Time.zone.today
+      soon = today + EXPIRED_SOON_DAYS.days
+      
+      # 期限切れ(0) < 期限間近(1) < その他(2) の順でソート
+      # プレースホルダーを使用して安全にSQLを組み立てる
+      sql = sanitize_sql_array([
+        "CASE " \
+        "WHEN expiration_date < ? THEN 0 " \
+        "WHEN expiration_date <= ? THEN 1 " \
+        "ELSE 2 END ASC, expiration_date ASC",
+        today, soon
+      ])
+      order(Arel.sql(sql))
     end
 
     def near_expiration_items
