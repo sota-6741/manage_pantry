@@ -29,6 +29,10 @@
 
 en:
   hello: "Hello world"
+  views:
+    common:
+      privacy: "Privacy Policy"
+      terms: "Terms of Service"
   activerecord:
     attributes:
       inventory_log:

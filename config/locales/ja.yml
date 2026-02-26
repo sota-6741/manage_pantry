@@ -36,6 +36,8 @@ ja:
       back_to_list: "一覧に戻る"
       home: "ホームへ戻る"
       logout: "ログアウト"
+      privacy: "プライバシーポリシー"
+      terms: "利用規約"
     items:
       index:
         subtitle: "家の食材在庫管理"

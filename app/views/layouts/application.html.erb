@@ -43,6 +43,11 @@
       <main>
         <%= yield %>
       </main>
+
+      <footer class="app-footer">
+        <%= link_to t("views.common.privacy"), privacy_path, class: "footer-link" %>
+        <%= link_to t("views.common.terms"), terms_path, class: "footer-link" %>
+      </footer>
     </div>
     <script type="module">
       import * as Turbo from "https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.4/dist/turbo.es2017-esm.js"

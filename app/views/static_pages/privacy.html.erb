@@ -1,0 +1,33 @@
+<div class="static-page-container">
+  <h1 class="static-page-title"><%= t("views.common.privacy") %></h1>
+
+  <div class="static-page-content">
+    <p>Manage Pantory（以下、「当サービス」といいます。）は、ユーザーの個人情報保護の重要性を認識し、以下の通りプライバシーポリシーを定めます。</p>
+
+    <h2>1. 取得する情報</h2>
+    <p>当サービスは、Google OAuth認証を通じて、以下の情報を取得します。</p>
+    <ul>
+      <li>名前（表示名）</li>
+      <li>メールアドレス</li>
+      <li>プロフィール画像（表示用）</li>
+    </ul>
+
+    <h2>2. 利用目的</h2>
+    <p>取得した情報は、以下の目的でのみ利用します。</p>
+    <ul>
+      <li>ユーザー認証および不正アクセスの防止</li>
+      <li>ユーザーごとの在庫データの管理</li>
+      <li>サービスの改善およびメンテナンス</li>
+    </ul>
+
+    <h2>3. 第三者提供</h2>
+    <p>当サービスは、法令に基づく場合を除き、ユーザーの同意なく個人情報を第三者に提供することはありません。</p>
+
+    <h2>4. データの削除</h2>
+    <p>ユーザーがアカウントの削除を希望する場合、管理しているデータおよび取得した個人情報は速やかに削除されます。</p>
+
+    <div class="actions" style="margin-top: 32px;">
+      <%= link_to t("views.common.back"), :back, class: "btn-secondary" %>
+    </div>
+  </div>
+</div>

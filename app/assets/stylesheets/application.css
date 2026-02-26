@@ -4,6 +4,7 @@
  *= require stock_adjustments
  *= require categories
  *= require flash
+ *= require static_pages
  *= require_self
  */
 

@@ -17,6 +17,9 @@ Rails.application.routes.draw do
 
   resources :categories, only: [:new, :create, :destroy]
 
+  get "privacy", to: "static_pages#privacy"
+  get "terms", to: "static_pages#terms"
+
   # 未定義のルートをすべて404へ（最後に記述）
   match "*path", to: "application#render_404", via: :all
 end
