@@ -6,9 +6,46 @@
           onchange: "this.form.submit();",
           class: "category-selector" %>
     <% end %>
-    <%= link_to new_category_path, data: { turbo_frame: "category_selector" }, class: "btn-add-category" do %>
-      <%= image_tag "icons/plus_white.svg", size: "20x20", alt: "" %>
-      <span><%= t('views.categories.selector.add_category') %></span>
-    <% end %>
+    <div class="category-actions">
+      <%= link_to new_category_path, data: { turbo_frame: "category_selector" }, class: "btn-add-category" do %>
+        <%= image_tag "icons/plus_white.svg", size: "20x20", alt: "" %>
+        <span><%= t('views.categories.selector.add_category') %></span>
+      <% end %>
+
+      <% if params[:category_id].present? %>
+        <button type="button" class="btn-delete-category" onclick="document.getElementById('delete-category-confirm-dialog').showModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="18" y1="6" x2="6" y2="18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="6" y1="6" x2="18" y2="18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      <% end %>
+    </div>
   </div>
+
+  <% if params[:category_id].present? %>
+    <dialog id="delete-category-confirm-dialog" class="confirm-modal">
+      <div class="confirm-modal-content">
+        <h3 class="confirm-title"><%= t("views.common.confirm_delete", default: "本当に削除しますか？") %></h3>
+        <p class="confirm-message">
+          「<strong><%= categories.find { |c| c.id.to_s == params[:category_id] }&.name %></strong>」を削除してもよろしいですか？<br>
+          ※このカテゴリーに属するアイテムのカテゴリーは「未分類」になります。
+        </p>
+        <div class="form-actions confirm-actions">
+          <%= button_to category_path(params[:category_id]), method: :delete, data: { turbo: false }, class: "btn-delete" do %>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 6h18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="10" y1="11" x2="10" y2="17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="14" y1="11" x2="14" y2="17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <%= t("views.common.delete") %>
+          <% end %>
+          <button type="button" class="btn-cancel-large" onclick="document.getElementById('delete-category-confirm-dialog').close()">
+            <%= t("views.common.cancel") %>
+          </button>
+        </div>
+      </div>
+    </dialog>
+  <% end %>
 <% end %>

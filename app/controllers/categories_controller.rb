@@ -28,6 +28,22 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def destroy
+    CategoryUsecases::DeleteCategoryUsecase.new.call(params[:id])
+    @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
+    flash.now[:notice] = t("controllers.categories.deleted", default: "カテゴリーを削除しました")
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.update("category_selector", partial: "categories/selector", locals: { categories: @categories }),
+          turbo_stream.update("flash", partial: "shared/flash")
+        ]
+      end
+      format.html { redirect_to items_path(category_id: nil), notice: t("controllers.categories.deleted", default: "カテゴリーを削除しました") }
+    end
+  end
+
   private
 
   def category_params

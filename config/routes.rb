@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     resources :inventory_logs, only: [:index]
   end
 
-  resources :categories, only: [:new, :create]
+  resources :categories, only: [:new, :create, :destroy]
 
   # 未定義のルートをすべて404へ（最後に記述）
   match "*path", to: "application#render_404", via: :all

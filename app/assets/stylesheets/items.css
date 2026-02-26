@@ -49,11 +49,17 @@
   font-family: var(--font-noto);
 }
 
+.category-actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
 .btn-add-category {
   background: var(--color-primary-green);
   border-radius: 10px;
   height: 40px;
-  width: 100%;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,6 +74,24 @@
 }
 
 .btn-add-category:hover {
+  opacity: 0.9;
+}
+
+.btn-delete-category {
+  background: #fb2c36;
+  border-radius: 10px;
+  height: 40px;
+  width: 52px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-delete-category:hover {
   opacity: 0.9;
 }
 
