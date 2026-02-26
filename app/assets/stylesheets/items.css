@@ -172,6 +172,16 @@
   box-shadow: var(--shadow-card);
 }
 
+.item-card.is-expired {
+  border-left-color: var(--color-alert-red);
+  background-color: var(--color-expired-bg);
+}
+
+.item-card.is-expiring-soon {
+  border-left-color: var(--color-warning-yellow);
+  background-color: var(--color-expiring-soon-bg);
+}
+
 .item-name {
   font-family: var(--font-noto); /* Inter:Medium */
   font-weight: 500;
@@ -200,6 +210,16 @@
   font-family: var(--font-noto);
   font-size: 14px;
   color: var(--color-subtitle);
+}
+
+.item-meta-row.text-expired {
+  color: var(--color-alert-red);
+  font-weight: 500;
+}
+
+.item-meta-row.text-expiring-soon {
+  color: var(--color-warning-yellow);
+  font-weight: 500;
 }
 
 .item-meta-icon {
@@ -382,6 +402,27 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  border-left: 4px solid transparent;
+}
+
+.info-card.is-expired {
+  border-left-color: var(--color-alert-red);
+  background-color: var(--color-expired-bg);
+}
+
+.info-card.is-expiring-soon {
+  border-left-color: var(--color-warning-yellow);
+  background-color: var(--color-expiring-soon-bg);
+}
+
+.info-card.is-expired .info-value {
+  color: var(--color-alert-red);
+  font-weight: 500;
+}
+
+.info-card.is-expiring-soon .info-value {
+  color: var(--color-warning-yellow);
+  font-weight: 500;
 }
 
 .info-icon {
