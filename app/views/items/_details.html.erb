@@ -24,7 +24,7 @@
       </div>
     </div>
     
-    <div class="info-card">
+    <div class="info-card <%= 'is-expired' if item.expired? %> <%= 'is-expiring-soon' if item.expired_soon? %>">
       <div class="info-icon"><%= image_tag "icons/calendar.svg", size: "20x20", alt: "" %></div>
       <div class="info-text">
         <span class="info-label"><%= t("activerecord.attributes.item.expiration_date") %></span>
