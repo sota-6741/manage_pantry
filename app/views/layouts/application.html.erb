@@ -31,7 +31,7 @@
             <% if user_signed_in? %>
               <div class="user-profile">
                 <% if current_user.image.present? %>
-                  <%= image_tag current_user.image, size: "32x32", class: "user-avatar" %>
+                  <%= image_tag current_user.image, size: "32x32", class: "user-avatar", referrerpolicy: "no-referrer" %>
                 <% end %>
                 <%= link_to t("views.common.logout"), destroy_user_session_path, data: { turbo_method: :delete }, class: "user-logout" %>
               </div>
