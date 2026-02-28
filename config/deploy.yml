@@ -2,7 +2,7 @@
 service: manage-pantry
 
 # Name of the container image (use your-user/app-name on external registries).
-image: <%= ENV['DOCKER_HUB_USERNAME'] %>/manage-pantry
+image: manage-pantry
 
 # Deploy to these servers.
 servers:
@@ -16,7 +16,7 @@ proxy:
 
 # Where you keep your container images.
 registry:
-  server: hub.docker.com
+  server: docker.io
   username: <%= ENV['DOCKER_HUB_USERNAME'] %>
   password:
     - KAMAL_REGISTRY_PASSWORD
