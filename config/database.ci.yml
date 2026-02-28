@@ -3,6 +3,6 @@ test:
   encoding: utf8mb4
   pool: 5
   username: root
-  password: <%= ENV.fetch("MYSQL_ROOT_PASSWORD") { 'password' } %>
+  password:
   host: 127.0.0.1
   database: manage_pantry_test
