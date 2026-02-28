@@ -13,8 +13,13 @@ servers:
 proxy:
   ssl: true
   host: <%= ENV['APP_DOMAIN'] %>
-  # 低メモリ環境での起動遅延を考慮
-  read_timeout: 120
+
+# Healthcheck configuration
+healthcheck:
+  path: /up
+  port: 3000
+  max_attempts: 15
+  interval: 5s
 
 # Where you keep your container images.
 registry:
