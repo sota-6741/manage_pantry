@@ -91,11 +91,8 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: unnecessary
+          known_hosts: ${{ secrets.SERVER_IP }}
           if_key_exists: replace
-
-      - name: Adding Known Hosts
-        run: ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Kamal Deploy
         env:
