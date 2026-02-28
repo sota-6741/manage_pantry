@@ -30,4 +30,12 @@ class InventoryLogTest < ActiveSupport::TestCase
     assert_equal "consume", log.reason
     assert_equal :consume, log.inventory_reason_delta.reason_key
   end
+
+  test "human_reason: 翻訳された理由を返す" do
+    log = InventoryLog.new(reason: "purchase")
+    assert_equal "購入", log.human_reason
+    
+    log.reason = "consume"
+    assert_equal "消費", log.human_reason
+  end
 end

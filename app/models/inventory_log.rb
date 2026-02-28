@@ -2,7 +2,7 @@ class InventoryLog < ApplicationRecord
   belongs_to :item
 
   # バリデーション
-  validates :change_amount, presence: true, numericality: true
+  validates :change_amount, presence: true, numericality: { other_than: 0 }
   validates :reason, presence: true, inclusion: { in: InventoryReasonDelta::VALID_REASONS.map(&:to_s) }
 
   def self.record(item:, delta:, reason_key:)

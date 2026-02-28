@@ -2,10 +2,10 @@
 
 one:
   item: one
-  change_amount: 9.99
-  reason: 1
+  change_amount: 10
+  reason: purchase
 
 two:
   item: two
-  change_amount: 9.99
-  reason: 1
+  change_amount: 5
+  reason: consume

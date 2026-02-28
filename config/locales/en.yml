@@ -41,10 +41,14 @@ en:
       category:
         name: "Category Name"
       inventory_log:
+        change_amount: "Change Amount"
         reasons:
           purchase: "Purchase"
           consume: "Consume"
           dispose: "Dispose"
+    errors:
+      messages:
+        record_invalid: "Validation failed: %{errors}"
   errors:
     format: "%{attribute} %{message}"
     messages:
@@ -52,6 +56,7 @@ en:
       taken: "has already been taken"
       invalid: "is invalid"
       greater_than_or_equal_to: "must be greater than or equal to %{count}"
+      other_than: "must be other than %{count}"
 
   views:
     common:

@@ -50,4 +50,11 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Sprockets のキャッシュパスを変更してパーミッションエラーを回避
+  config.assets.configure do |env|
+    env.cache = Sprockets::Cache::FileStore.new(
+      Rails.root.join("tmp/assets_test")
+    )
+  end if config.respond_to?(:assets)
 end

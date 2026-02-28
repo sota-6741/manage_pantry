@@ -1,0 +1,39 @@
+<div class="history-section">
+  <h2 class="section-title">
+    <div class="section-icon">
+      <%= image_tag "icons/history_green.svg", size: "20x20", alt: "" %>
+    </div>
+    <%= t("views.items.show.history_title") %>
+  </h2>
+  
+  <% if @inventory_logs.any? %>
+    <div class="history-list">
+      <% @inventory_logs.each do |log| %>
+        <div class="history-card">
+          <div class="history-icon-wrapper">
+            <% if log.change_amount.to_i < 0 %>
+              <%= image_tag "icons/trend_down_red.svg", size: "20x20", alt: "" %>
+            <% else %>
+              <%= image_tag "icons/trend_up_green.svg", size: "20x20", alt: "" %>
+            <% end %>
+          </div>
+          <div class="history-info">
+            <div class="history-header">
+              <span class="history-amount <%= log.change_amount.to_i < 0 ? 'text-red' : 'text-green' %>">
+                <%= log.change_amount.to_i > 0 ? "+#{log.change_amount}" : log.change_amount %>
+              </span>
+              <span class="history-reason"><%= log.human_reason %></span>
+            </div>
+            <div class="history-date">
+              <%= log.created_at.strftime("%Y/%m/%d %H:%M") %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-history-container">
+      <p class="empty-history-text"><%= t("views.items.show.no_history") %></p>
+    </div>
+  <% end %>
+</div>

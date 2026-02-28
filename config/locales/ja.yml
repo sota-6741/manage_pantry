@@ -12,10 +12,14 @@ ja:
       category:
         name: "カテゴリー名"
       inventory_log:
+        change_amount: "変更数量"
         reasons:
           purchase: "購入"
           consume: "消費"
           dispose: "破棄"
+    errors:
+      messages:
+        record_invalid: "バリデーションに失敗しました: %{errors}"
   errors:
     format: "%{attribute}%{message}"
     messages:
@@ -23,6 +27,7 @@ ja:
       taken: "はすでに登録されています"
       invalid: "は不正な値です"
       greater_than_or_equal_to: "は%{count}以上の値にしてください"
+      other_than: "は%{count}以外の値にしてください"
 
   views:
     common:
