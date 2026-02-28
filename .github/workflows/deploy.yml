@@ -104,9 +104,11 @@ jobs:
           GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
           REPO: ${{ github.repository }}
         run: |
-          # 1. サーバー上に .env ファイルを生成
+          # 1. サーバー上にディレクトリを作成
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key ubuntu@$SERVER_IP "mkdir -p /home/ubuntu/manage-pantry"
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key ubuntu@$SERVER_IP "cat <<EOF > /home/ubuntu/manage-pantry/.env
+
+          # 2. GitHub Actions 側で .env ファイルを生成
+          cat <<EOF > .env
           MYSQL_DATABASE=$MYSQL_DATABASE
           MYSQL_USER=$MYSQL_USER
           MYSQL_PASSWORD=$MYSQL_PASSWORD
@@ -116,12 +118,12 @@ jobs:
           GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
           GOOGLE_REDIRECT_URI=$GOOGLE_REDIRECT_URI
           GITHUB_REPOSITORY=$REPO
-          EOF"
+          EOF
+
+          # 3. ファイルをサーバーに転送
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key .env docker-compose.prod.yml scripts/deploy.sh ubuntu@$SERVER_IP:/home/ubuntu/manage-pantry/
           
-          # 2. 設定ファイルとスクリプトを転送
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key docker-compose.prod.yml scripts/deploy.sh ubuntu@$SERVER_IP:/home/ubuntu/manage-pantry/
-          
-          # 3. デプロイスクリプトの実行
+          # 4. サーバー上でデプロイスクリプトを実行
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key ubuntu@$SERVER_IP "
             cd /home/ubuntu/manage-pantry
             export GHCR_TOKEN=${{ secrets.GITHUB_TOKEN }}
