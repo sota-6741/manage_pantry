@@ -13,13 +13,10 @@ servers:
 proxy:
   ssl: true
   host: <%= ENV['APP_DOMAIN'] %>
-
-# Healthcheck configuration
-healthcheck:
-  path: /up
-  port: 3000
-  max_attempts: 15
-  interval: 5s
+  healthcheck:
+    path: /up
+    port: 3000
+    interval: 5s
 
 # Where you keep your container images.
 registry:
