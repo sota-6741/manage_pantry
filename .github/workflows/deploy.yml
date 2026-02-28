@@ -91,31 +91,29 @@ jobs:
           name: manage-pantry.key
           known_hosts: ${{ secrets.SERVER_IP }}
 
-      - name: Deploy to OCI
-        run: |
-          # 秘密鍵のパスを指定し、接続プロンプトを回避するオプションを追加します
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key ubuntu@${{ secrets.SERVER_IP }} "
-            mkdir -p /home/ubuntu/manage-pantry
-            cd /home/ubuntu/manage-pantry
-            
-            # .env の生成（Secrets から値を安全に書き出し）
-            cat <<EOF > .env
-            MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
-            MYSQL_USER=${{ secrets.MYSQL_USER }}
-            MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
-            MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
-            RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
-            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
-            GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
-            GOOGLE_REDIRECT_URI=${{ secrets.GOOGLE_REDIRECT_URI }}
-            GITHUB_REPOSITORY=${{ github.repository }}
-            EOF
-
-            chmod 600 .env
-          "
-          # 設定ファイルとスクリプトを転送
+            - name: Deploy to OCI
+              run: |
+                ssh -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key ubuntu@${{ secrets.SERVER_IP }} "
+                  mkdir -p /home/ubuntu/manage-pantry
+                  cd /home/ubuntu/manage-pantry
+                  
+                  # .env の生成（インデントを排除して正確に書き出し）
+                  cat << 'EOF' > .env
+      MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
+      MYSQL_USER=${{ secrets.MYSQL_USER }}
+      MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
+      MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+      RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
+      GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+      GOOGLE_REDIRECT_URI=${{ secrets.GOOGLE_REDIRECT_URI }}
+      GITHUB_REPOSITORY=${{ github.repository }}
+      EOF
+      
+                  chmod 600 .env
+                "          # 設定ファイルとスクリプトを転送
           scp -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key docker-compose.prod.yml scripts/deploy.sh ubuntu@${{ secrets.SERVER_IP }}:/home/ubuntu/manage-pantry/
-          
+
           # デプロイスクリプトの実行
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key ubuntu@${{ secrets.SERVER_IP }} "
             cd /home/ubuntu/manage-pantry
