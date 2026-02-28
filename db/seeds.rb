@@ -35,4 +35,3 @@ pantry_items.each do |item_data|
     item.category = category
   end
 end
-

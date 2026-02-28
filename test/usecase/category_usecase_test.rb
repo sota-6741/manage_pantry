@@ -12,7 +12,7 @@ class CategoryUsecaseTest < ActiveSupport::TestCase
 
   test "CreateCategoryUsecase#call は有効なパラメータでCategoryを作成する" do
     params = { name: "New Category" }
-    
+
     assert_difference("Category.count", 1) do
       created_category = @create_usecase.call(params)
       assert_equal "New Category", created_category.name
@@ -28,7 +28,7 @@ class CategoryUsecaseTest < ActiveSupport::TestCase
   test "UpdateCategoryUsecase#call はカテゴリーを更新する" do
     params = { name: "Updated Name" }
     updated_category = @update_usecase.call(@category.id, params)
-    
+
     assert_equal "Updated Name", updated_category.name
     assert_equal "Updated Name", @category.reload.name
   end

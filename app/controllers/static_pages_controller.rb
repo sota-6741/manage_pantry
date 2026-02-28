@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:privacy, :terms], raise: false
+  skip_before_action :authenticate_user!, only: [ :privacy, :terms ], raise: false
 
   def privacy
   end

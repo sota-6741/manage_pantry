@@ -31,7 +31,7 @@ class CategoryTest < ActiveSupport::TestCase
   test "削除時: カテゴリーを削除してもアイテムは削除されず、category_idがnullになる" do
     item = items(:one)
     item.update!(category: @category)
-    
+
     @category.destroy
     assert_nil item.reload.category_id
   end

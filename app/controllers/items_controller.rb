@@ -31,7 +31,7 @@ class ItemsController < ApplicationController
   def update
     @item = InventoryUsecases::UpdateItemUsecase.new(user: current_user).call(params[:id], item_update_params)
     flash.now[:notice] = t("controllers.items.updated", name: @item.name)
-    
+
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
@@ -45,20 +45,20 @@ class ItemsController < ApplicationController
     @item = e.record
     @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
     flash.now[:alert] = t("controllers.items.failed_update")
-    
+
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
           turbo_stream.update(
             helpers.dom_id(@item, :info),
             partial: "items/form",
-            locals: { 
-              item: @item, 
-              categories: @categories, 
-              title: t('views.items.form.edit_title'), 
-              submit_label: t('views.items.form.update'), 
-              cancel_path: item_path(@item), 
-              cancel_data: { turbo_frame: helpers.dom_id(@item, :info) } 
+            locals: {
+              item: @item,
+              categories: @categories,
+              title: t("views.items.form.edit_title"),
+              submit_label: t("views.items.form.update"),
+              cancel_path: item_path(@item),
+              cancel_data: { turbo_frame: helpers.dom_id(@item, :info) }
             }
           ),
           turbo_stream.update("flash", partial: "shared/flash")

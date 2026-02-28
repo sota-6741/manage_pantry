@@ -8,15 +8,15 @@ class CategoriesController < ApplicationController
     @categories = CategoryUsecases::ListCategoryUsecase.new.call(user: current_user)
     notice_message = t("controllers.categories.created", name: @category.name)
     flash.now[:notice] = notice_message
-    
+
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to items_path, notice: notice_message }
     end
   rescue ActiveRecord::RecordInvalid => e
     @category = e.record
-    flash.now[:alert] = t("controllers.categories.failed", errors: @category.errors.full_messages.join('、'))
-    
+    flash.now[:alert] = t("controllers.categories.failed", errors: @category.errors.full_messages.join("、"))
+
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [

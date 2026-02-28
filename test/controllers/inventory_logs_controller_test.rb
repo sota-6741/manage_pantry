@@ -10,7 +10,7 @@ class InventoryLogsControllerTest < ActionDispatch::IntegrationTest
   test "アイテムの履歴一覧を表示できる" do
     # 履歴を1つ作成
     InventoryLog.record(item: @item, delta: 5, reason_key: :purchase)
-    
+
     get item_inventory_logs_url(@item)
     assert_response :success
     assert_match "購入", response.body

@@ -19,7 +19,7 @@ class ItemTest < ActiveSupport::TestCase
     assert_raises(StandardError, "在庫不足") do
       @item.update_stock!(-11)
     end
-    
+
     assert_equal 10, @item.reload.quantity
   end
 
@@ -31,7 +31,7 @@ class ItemTest < ActiveSupport::TestCase
       category: @category,
       user: @user
     )
-    
+
     assert item.save
     assert_equal "New Item", item.name
     assert_equal 5, item.quantity
@@ -43,7 +43,7 @@ class ItemTest < ActiveSupport::TestCase
     # 新しく作成して順序を確認
     Item.create!(name: "Past", quantity: 1, expiration_date: 1.day.ago, user: @user)
     Item.create!(name: "Future", quantity: 1, expiration_date: 10.days.from_now, user: @user)
-    
+
     items = Item.ordered_by_urgency
     assert items.first.expiration_date < items.last.expiration_date
   end

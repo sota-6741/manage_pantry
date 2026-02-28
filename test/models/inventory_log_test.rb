@@ -23,7 +23,7 @@ class InventoryLogTest < ActiveSupport::TestCase
     assert_difference("InventoryLog.count", 1) do
       InventoryLog.record(item: @item, delta: -5, reason_key: :consume)
     end
-    
+
     log = InventoryLog.last
     assert_equal @item, log.item
     assert_equal(-5, log.change_amount)
@@ -34,7 +34,7 @@ class InventoryLogTest < ActiveSupport::TestCase
   test "human_reason: 翻訳された理由を返す" do
     log = InventoryLog.new(reason: "purchase")
     assert_equal "購入", log.human_reason
-    
+
     log.reason = "consume"
     assert_equal "消費", log.human_reason
   end

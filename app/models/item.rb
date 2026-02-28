@@ -12,7 +12,7 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :quantity, presence: true
   validates :expiration_date, presence: true
-  
+
   validate :name_uniqueness
 
   # 0以上の数値か？(在庫なしも管理したほうがいいかも)
@@ -60,7 +60,7 @@ class Item < ApplicationRecord
     def ordered_by_urgency
       today = Time.zone.today
       soon = today + EXPIRED_SOON_DAYS.days
-      
+
       # 期限切れ(0) < 期限間近(1) < その他(2) の順でソート
       # プレースホルダーを使用して安全にSQLを組み立てる
       sql = sanitize_sql_array([

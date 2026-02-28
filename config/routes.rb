@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -11,11 +11,11 @@ Rails.application.routes.draw do
 
   resources :items do
     get :stock, on: :member
-    resources :stock_adjustments, only: [:new, :create]
-    resources :inventory_logs, only: [:index]
+    resources :stock_adjustments, only: [ :new, :create ]
+    resources :inventory_logs, only: [ :index ]
   end
 
-  resources :categories, only: [:new, :create, :destroy]
+  resources :categories, only: [ :new, :create, :destroy ]
 
   get "privacy", to: "static_pages#privacy"
   get "terms", to: "static_pages#terms"
