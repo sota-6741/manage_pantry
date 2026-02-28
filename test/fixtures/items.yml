@@ -1,16 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  quantity: 9.99
+  name: Item One
+  quantity: 10
   unit: MyString
   expiration_date: 2026-01-19
   category: one
   user: one
 
 two:
-  name: MyString
-  quantity: 9.99
+  name: Item Two
+  quantity: 20
   unit: MyString
   expiration_date: 2026-01-19
   category: two

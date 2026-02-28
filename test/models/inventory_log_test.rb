@@ -8,9 +8,9 @@ class InventoryLogTest < ActiveSupport::TestCase
   test "バリデーション: 必須項目が欠けている場合は無効" do
     log = InventoryLog.new
     assert_not log.valid?
-    assert_includes log.errors[:item], "must exist"
-    assert_includes log.errors[:change_amount], "can't be blank"
-    assert_includes log.errors[:reason], "can't be blank"
+    assert_includes log.errors[:item], "を入力してください"
+    assert_includes log.errors[:change_amount], "を入力してください"
+    assert_includes log.errors[:reason], "を入力してください"
   end
 
   test "inventory_reason_delta: reasonカラムからInventoryReasonDeltaオブジェクトを取得できる" do
