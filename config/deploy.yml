@@ -15,7 +15,6 @@ proxy:
   host: <%= ENV['APP_DOMAIN'] %>
   healthcheck:
     path: /up
-    port: 3000
     interval: 5s
 
 # Where you keep your container images.
