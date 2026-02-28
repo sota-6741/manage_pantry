@@ -2,6 +2,8 @@ name: Rails CI
 
 on:
   push:
+    branches: [ main ]
+  pull_request:
 
 jobs:
   build:
@@ -12,45 +14,49 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: manage_pantry_test
+          TZ: "Asia/Tokyo"
         ports:
           - 3306:3306
         options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 10
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.4.8'
-
-    - name: Cache Ruby gems
-      uses: actions/cache@v3
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-gems-
+        ruby-version: .ruby-version
+        bundler-cache: true
 
     - name: Install dependencies
       run: |
         sudo apt update -qq
         sudo apt install -y libmysqlclient-dev
-        gem install bundler
-        bundle config path vendor/bundle
-        bundle install --jobs 4 --retry 3
 
     - name: Setup database
       env:
         MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+        MYSQL_DATABASE: manage_pantry_test
       run: |
           cp config/database.ci.yml config/database.yml
-          bundle exec rails db:create RAILS_ENV=test
-          bundle exec rails db:migrate RAILS_ENV=test
-
+          bundle exec rails db:prepare RAILS_ENV=test
+  
     - name: Run Tests
+      env:
+        RAILS_ENV: test
+        MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
       run: bundle exec rails test
+
+    - name: Run Security Audit (bundler-audit)
+      run: bundle exec bundler-audit --update
+
+    - name: Run Static Analysis (brakeman)
+      run: bundle exec brakeman --no-pager
 
     - name: Run RuboCop
       run: bundle exec rubocop
