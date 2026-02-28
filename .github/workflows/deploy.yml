@@ -88,12 +88,13 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          name: manage-pantry.key # 独自の鍵名を指定
+          name: manage-pantry.key
           known_hosts: ${{ secrets.SERVER_IP }}
 
       - name: Deploy to OCI
         run: |
-          ssh -i ~/.ssh/manage-pantry.key ubuntu@${{ secrets.SERVER_IP }} "
+          # 秘密鍵のパスを指定し、接続プロンプトを回避するオプションを追加します
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key ubuntu@${{ secrets.SERVER_IP }} "
             mkdir -p /home/ubuntu/manage-pantry
             cd /home/ubuntu/manage-pantry
             
@@ -113,10 +114,10 @@ jobs:
             chmod 600 .env
           "
           # 設定ファイルとスクリプトを転送
-          scp -i ~/.ssh/manage-pantry.key docker-compose.prod.yml scripts/deploy.sh ubuntu@${{ secrets.SERVER_IP }}:/home/ubuntu/manage-pantry/
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key docker-compose.prod.yml scripts/deploy.sh ubuntu@${{ secrets.SERVER_IP }}:/home/ubuntu/manage-pantry/
           
           # デプロイスクリプトの実行
-          ssh -i ~/.ssh/manage-pantry.key ubuntu@${{ secrets.SERVER_IP }} "
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/manage-pantry.key ubuntu@${{ secrets.SERVER_IP }} "
             cd /home/ubuntu/manage-pantry
             export GHCR_TOKEN=${{ secrets.GITHUB_TOKEN }}
             export GHCR_ACTOR=${{ github.actor }}
