@@ -2,6 +2,7 @@ require "test_helper"
 
 class ItemTest < ActiveSupport::TestCase
   setup do
+    @user = users(:one)
     @category = categories(:one)
     @item = items(:one)
     @item.update!(quantity: 10.0) # テストのために数量を整数値に設定
@@ -22,26 +23,28 @@ class ItemTest < ActiveSupport::TestCase
     assert_equal 10, @item.reload.quantity
   end
 
-  test "register: アイテムを作成して保存する" do
-    params = {
+  test "create: ユーザーを指定してアイテムを作成できる" do
+    item = Item.new(
       name: "New Item",
       quantity: 5,
       expiration_date: Date.today,
-      category_id: @category.id
-    }
+      category: @category,
+      user: @user
+    )
     
-    item = nil
-    assert_difference("Item.count", 1) do
-      item = Item.register(params)
-    end
-    
+    assert item.save
     assert_equal "New Item", item.name
     assert_equal 5, item.quantity
-    assert item.persisted?
+    assert_equal @user, item.user
   end
 
-  test "fetch: IDでアイテムを取得する" do
-    found_item = Item.fetch(@item.id)
-    assert_equal @item, found_item
+  test "ordered_by_urgency: 期限順にソートされる" do
+    # items(:one) は 2026-01-19
+    # 新しく作成して順序を確認
+    Item.create!(name: "Past", quantity: 1, expiration_date: 1.day.ago, user: @user)
+    Item.create!(name: "Future", quantity: 1, expiration_date: 10.days.from_now, user: @user)
+    
+    items = Item.ordered_by_urgency
+    assert items.first.expiration_date < items.last.expiration_date
   end
 end

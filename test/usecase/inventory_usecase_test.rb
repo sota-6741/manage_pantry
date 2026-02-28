@@ -2,8 +2,9 @@ require "test_helper"
 
 class InventoryUsecaseTest < ActiveSupport::TestCase
   setup do
-    @create_item_usecase = Inventory::CreateItemUsecase.new(item_model: Item, inventory_log_model: InventoryLog)
-    @change_stock_usecase = Inventory::ChangeStockUsecase.new(item_model: Item, inventory_log_model: InventoryLog)
+    @user = users(:one)
+    @create_item_usecase = InventoryUsecases::CreateItemUsecase.new(user: @user)
+    @change_stock_usecase = InventoryUsecases::ChangeStockUsecase.new(user: @user)
     @item = items(:one)
     @category = categories(:one)
   end
@@ -23,6 +24,7 @@ class InventoryUsecaseTest < ActiveSupport::TestCase
 
       assert_equal "新しいアイテム", created_item.name
       assert_equal 10, created_item.quantity
+      assert_equal @user, created_item.user
     end
 
     # ログ

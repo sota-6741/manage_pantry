@@ -1,6 +1,8 @@
 require "test_helper"
 
 class ApplicationSystemTestCase < ActionController::SystemTestCase
+  include Warden::Test::Helpers
+
   # GitHub Actions などの CI 環境ではヘッドレスモードで実行します
   driven_by :selenium, using: :chrome, screen_size: [1440, 900] do |options|
     options.add_argument('--headless')
