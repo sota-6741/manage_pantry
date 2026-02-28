@@ -36,6 +36,8 @@ ja:
       back_to_list: "一覧に戻る"
       home: "ホームへ戻る"
       logout: "ログアウト"
+      language_ja: "日本語"
+      language_en: "English"
       privacy: "プライバシーポリシー"
       terms: "利用規約"
     items:

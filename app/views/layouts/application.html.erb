@@ -45,8 +45,15 @@
       </main>
 
       <footer class="app-footer">
-        <%= link_to t("views.common.privacy"), privacy_path, class: "footer-link" %>
-        <%= link_to t("views.common.terms"), terms_path, class: "footer-link" %>
+        <div class="footer-section">
+          <%= link_to t("views.common.language_ja"), set_locale_path(locale: :ja), class: "footer-link #{'active' if I18n.locale == :ja}" %>
+          <span class="footer-separator">/</span>
+          <%= link_to t("views.common.language_en"), set_locale_path(locale: :en), class: "footer-link #{'active' if I18n.locale == :en}" %>
+        </div>
+        <div class="footer-section">
+          <%= link_to t("views.common.privacy"), privacy_path, class: "footer-link" %>
+          <%= link_to t("views.common.terms"), terms_path, class: "footer-link" %>
+        </div>
       </footer>
     </div>
     <script type="module">

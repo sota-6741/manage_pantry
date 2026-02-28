@@ -23,6 +23,11 @@ class ApplicationController < ActionController::Base
   private
 
   def set_locale
-    I18n.locale = :ja
+    I18n.locale = locale_from_params || session[:locale] || I18n.default_locale
+    session[:locale] = I18n.locale
+  end
+
+  def locale_from_params
+    params[:locale] if I18n.available_locales.map(&:to_s).include?(params[:locale])
   end
 end

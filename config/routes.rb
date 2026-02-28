@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   get "privacy", to: "static_pages#privacy"
   get "terms", to: "static_pages#terms"
+  get "set_locale", to: "locales#update"
 
   # 未定義のルートをすべて404へ（最後に記述）
   match "*path", to: "application#render_404", via: :all
