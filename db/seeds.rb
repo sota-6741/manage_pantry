@@ -1,3 +1,8 @@
+# Test User
+user = User.find_or_create_by!(email: "test@example.com") do |u|
+  u.password = "password"
+end
+
 # Categories
 categories = [
   { name: "野菜" },
@@ -9,7 +14,7 @@ categories = [
 ]
 
 categories.each do |cat|
-  Category.find_or_create_by!(name: cat[:name])
+  Category.find_or_create_by!(name: cat[:name], user: user)
 end
 
 # Items
@@ -23,10 +28,11 @@ pantry_items = [
 ]
 
 pantry_items.each do |item_data|
-  category = Category.find_by(name: item_data[:category_name])
-  Item.find_or_create_by!(name: item_data[:name]) do |item|
+  category = Category.find_by(name: item_data[:category_name], user: user)
+  Item.find_or_create_by!(name: item_data[:name], user: user) do |item|
     item.quantity = item_data[:quantity]
     item.expiration_date = item_data[:expiration_date]
     item.category = category
   end
 end
+

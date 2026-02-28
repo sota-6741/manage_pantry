@@ -53,6 +53,7 @@ end
 
 gem "sprockets-rails"
 gem "turbo-rails"
+gem "rails-i18n"
 
 # User Authentication
 gem "devise"
