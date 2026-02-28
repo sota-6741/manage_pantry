@@ -15,7 +15,7 @@ proxy:
   host: <%= ENV['APP_DOMAIN'] %>
   healthcheck:
     path: /up
-    interval: 5s
+    interval: 5
 
 # Where you keep your container images.
 registry:
