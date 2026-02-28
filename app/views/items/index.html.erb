@@ -14,7 +14,7 @@
 <%# Inventory List %>
 <% if @items.any? %>
   <div class="inventory-list-container">
-    <%= render @items %>
+    <%= render partial: "items/item", collection: @items %>
   </div>
 <% else %>
   <div class="empty-inventory-container">
