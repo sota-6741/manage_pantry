@@ -12,11 +12,24 @@ services:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI}
-    ports:
-      - "80:80"
+    expose:
+      - "80"
     depends_on:
       db:
         condition: service_healthy
+
+  caddy:
+    image: caddy:latest
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
 
   db:
     image: mysql:8.0
@@ -39,3 +52,5 @@ services:
 
 volumes:
   db-data:
+  caddy_data:
+  caddy_config:

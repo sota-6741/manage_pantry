@@ -1,0 +1,3 @@
+manage-pantry.com {
+    reverse_proxy web:80
+}

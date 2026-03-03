@@ -139,7 +139,7 @@ jobs:
           EOF
 
           # 3. ファイルをサーバーに転送
-          scp -i ~/.ssh/manage-pantry.key .env docker-compose.prod.yml scripts/deploy.sh "ubuntu@${SERVER_IP}:/home/ubuntu/manage-pantry/"
+          scp -i ~/.ssh/manage-pantry.key .env docker-compose.prod.yml Caddyfile scripts/deploy.sh "ubuntu@${SERVER_IP}:/home/ubuntu/manage-pantry/"
           
           # 4. サーバー上でデプロイスクリプトを実行
           ssh -i ~/.ssh/manage-pantry.key "ubuntu@${SERVER_IP}" "
