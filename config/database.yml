@@ -51,7 +51,7 @@ production:
     database: <%= ENV.fetch("MYSQL_DATABASE") { "manage_pantry_production" } %>
     username: <%= ENV.fetch("MYSQL_USER") { "root" } %>
     password: <%= ENV.fetch("MYSQL_ROOT_PASSWORD") { "" } %>
-    host: <%= ENV.fetch("MYSQL_HOST") { "localhost" } %>
+    host: <%= ENV.fetch("MYSQL_HOST") { "db" } %>
     port: <%= ENV.fetch("MYSQL_PORT") { 3306 } %>
   cache:
     <<: *production_primary
