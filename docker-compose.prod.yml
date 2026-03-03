@@ -21,6 +21,10 @@ services:
   db:
     image: mysql:8.0
     restart: always
+    command: 
+      - --performance_schema=OFF
+      - --innodb_buffer_pool_size=64M
+      - --innodb_log_buffer_size=1M
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
