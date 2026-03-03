@@ -1,7 +1,7 @@
-:80 {
-    reverse_proxy web:80
+{
+    auto_https off
 }
 
-manage-pantry.com {
+http://manage-pantry.com, http://150.230.58.249 {
     reverse_proxy web:80
 }
