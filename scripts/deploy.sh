@@ -19,7 +19,7 @@ docker compose -f docker-compose.prod.yml up -d --force-recreate
 echo "Waiting for health check..."
 MAX_RETRIES=30
 RETRY_COUNT=0
-until [ $(curl -s -L -o /dev/null -w "%{http_code}" http://localhost/up) -eq 200 ]; do
+until [ $(docker compose -f docker-compose.prod.yml exec -T web curl -s -o /dev/null -w "%{http_code}" http://localhost/up) -eq 200 ]; do
   if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
     echo "Health check failed after $MAX_RETRIES attempts."
     docker compose -f docker-compose.prod.yml logs web
