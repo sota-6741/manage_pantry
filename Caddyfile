@@ -1,4 +1,4 @@
-http://localhost {
+:80 {
     reverse_proxy web:80
 }
 
