@@ -96,18 +96,20 @@ jobs:
         env:
           SERVER_IP: ${{ secrets.SERVER_IP }}
         run: |
-          echo "Connecting to $SERVER_IP..."
-          if ! nc -zv -w 10 $SERVER_IP 22; then
-            echo "Error: Connection to $SERVER_IP on port 22 timed out."
+          CLEAN_IP=$(echo "${SERVER_IP}" | xargs)
+          echo "SERVER_IP_CLEANED=${CLEAN_IP}" >> $GITHUB_ENV
+          echo "Connecting to ${CLEAN_IP}..."
+          if ! nc -zv -w 10 "${CLEAN_IP}" 22; then
+            echo "Error: Connection to ${CLEAN_IP} on port 22 timed out."
             echo "Please check OCI 'Security Lists' or 'Network Security Groups' for source 0.0.0.0/0."
             exit 1
           fi
           mkdir -p ~/.ssh
-          ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
+          ssh-keyscan -H "${CLEAN_IP}" >> ~/.ssh/known_hosts
 
       - name: Deploy to OCI
         env:
-          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_IP: ${{ env.SERVER_IP_CLEANED }}
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
           MYSQL_USER: ${{ secrets.MYSQL_USER }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
@@ -120,7 +122,7 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           # 1. サーバー上にディレクトリを作成
-          ssh -i ~/.ssh/manage-pantry.key ubuntu@$SERVER_IP "mkdir -p /home/ubuntu/manage-pantry"
+          ssh -i ~/.ssh/manage-pantry.key "ubuntu@${SERVER_IP}" "mkdir -p /home/ubuntu/manage-pantry"
 
           # 2. GitHub Actions 側で .env ファイルを生成
           cat <<EOF > .env
@@ -137,10 +139,10 @@ jobs:
           EOF
 
           # 3. ファイルをサーバーに転送
-          scp -i ~/.ssh/manage-pantry.key .env docker-compose.prod.yml scripts/deploy.sh ubuntu@$SERVER_IP:/home/ubuntu/manage-pantry/
+          scp -i ~/.ssh/manage-pantry.key .env docker-compose.prod.yml scripts/deploy.sh "ubuntu@${SERVER_IP}:/home/ubuntu/manage-pantry/"
           
           # 4. サーバー上でデプロイスクリプトを実行
-          ssh -i ~/.ssh/manage-pantry.key ubuntu@$SERVER_IP "
+          ssh -i ~/.ssh/manage-pantry.key "ubuntu@${SERVER_IP}" "
             cd /home/ubuntu/manage-pantry
             export GHCR_TOKEN=${{ secrets.GITHUB_TOKEN }}
             export GHCR_ACTOR=${{ github.actor }}
