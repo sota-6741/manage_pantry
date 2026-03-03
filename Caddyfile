@@ -1,3 +1,7 @@
-manage-pantry.com, localhost {
+http://localhost {
+    reverse_proxy web:80
+}
+
+manage-pantry.com {
     reverse_proxy web:80
 }

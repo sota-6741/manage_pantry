@@ -2,6 +2,7 @@ services:
   web:
     image: ghcr.io/${GITHUB_REPOSITORY}:latest
     restart: always
+    command: ["./bin/rails", "server", "-p", "80", "-b", "0.0.0.0"]
     environment:
       RAILS_ENV: production
       PORT: 80
