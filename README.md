@@ -1,24 +1,74 @@
-# README
+# Manage Pantry
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 概要
 
-Things you may want to cover:
+Manage Pantry は、ユーザーが食材・消耗品の在庫管理を効率的に行えるように設計された Web アプリケーションです。アイテムの在庫状況の追跡、カテゴリ分類、および消費期限のプロアクティブな監視機能を提供し、食品ロスの削減をサポートします。
 
-* Ruby version
+## 主な機能
 
-* System dependencies
+*   **ユーザー認証**: Devise を活用してセキュアなユーザー登録およびログイン機能を実装し、Google OAuth2 を用いたシームレスなソーシャルログインにも対応しています。
+*   **在庫管理**: パントリー（保管場所）にあるアイテムの追加、編集、削除を簡単に行い、現在の数量や消費期限を記録できます。
+*   **期限トラッキング**: 消費期限が近づいているアイテムや、すでに期限切れとなったアイテムを自動的にハイライト・ソートし、使い忘れを防止します。
+*   **在庫の増減調整と履歴記録**: どのような理由で在庫が変動したのか（例：消費した、購入した、破棄した等）を詳細な在庫調整ログとして記録し、トラッキングします。
+*   **カテゴリ分類**: アイテムをカスタムカテゴリに分類することで、視認性を高め、目的のアイテムを素早く検索できるように整理します。
 
-* Configuration
+## 技術スタック
 
-* Database creation
+*   **バックエンド**: Ruby on Rails (v8.x)
+*   **データベース**: MySQL 8.0
+*   **フロントエンド**: Hotwire (Turbo/Stimulus), Tailwind CSS
+*   **インフラ**: Docker, Docker Compose
+*   **Web サーバー / プロキシ**: Caddy (HTTPSの自動化)
+*   **CI/CD**: GitHub Actions (テスト、ビルド、デプロイ)
+*   **デプロイ環境**: Oracle Cloud Infrastructure (OCI)
 
-* Database initialization
+## システム構成とデプロイパイプライン
 
-* How to run the test suite
+本アプリケーションはモダンなコンテナアーキテクチャを採用しています。
+GitHub Actions を通じて設定されたフルオートメーションの CI/CD パイプラインにより、Oracle Cloud Infrastructure (OCI) インスタンスへデプロイされます。
 
-* Services (job queues, cache servers, search engines, etc.)
+1.  **継続的インテグレーション (CI)**: `main` ブランチにコードがプッシュされると、自動テスト、セキュリティ監査 (Brakeman, bundler-audit)、静的コード解析 (RuboCop) が自動的に実行されます。
+2.  **継続的デプロイメント (CD)**: CI チェックがすべて通過すると、新しい Docker イメージがビルドされ、GitHub Container Registry (GHCR) へプッシュされます。
+3.  **ゼロダウンタイムデプロイ**: ワークフローが SSH 経由で本番サーバーへ接続し、最新のイメージを取得します。その後、接続中のユーザー環境を中断することなく、アプリケーションおよび Caddy サーバーの設定をリロードします。
 
-* Deployment instructions
+## セットアップ手順
 
-* ...
+### 前提条件
+
+*   ローカルマシンに Docker および Docker Compose がインストールされていること。
+
+### 起動手順
+
+1.  **リポジトリのクローン**
+    ```sh
+    git clone https://github.com/your-username/manage_pantry.git
+    cd manage_pantry
+    ```
+
+2.  **環境変数の設定**
+    サンプルファイルをコピーし、ローカル用のクレデンシャル（必要に応じて Google OAuth2 キー等）を設定します。
+    ```sh
+    cp .env.sample .env
+    ```
+
+3.  **コンテナのビルドと起動**
+    ```sh
+    docker compose up --build -d
+    ```
+
+4.  **データベースのセットアップ**
+    データベースの作成とマイグレーションを実行します。
+    ```sh
+    docker compose exec web bin/rails db:prepare
+    ```
+
+5.  **アプリケーションへのアクセス**
+    ブラウザを開き、`http://localhost:3000` にアクセスします。
+
+## テストの実行
+
+本アプリケーションは Rails の標準テストフレームワークを使用しています。ローカルでテストスイートを実行するには以下のコマンドを使用します。
+
+```sh
+docker compose exec web bin/rails test
+```
