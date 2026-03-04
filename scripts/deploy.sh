@@ -14,7 +14,11 @@ echo "Pulling latest images..."
 docker compose -f docker-compose.prod.yml pull
 
 echo "Starting containers..."
-docker compose -f docker-compose.prod.yml up -d --force-recreate
+docker compose -f docker-compose.prod.yml up -d web db
+docker compose -f docker-compose.prod.yml up -d --no-recreate caddy
+
+echo "Reloading Caddy configuration..."
+docker compose -f docker-compose.prod.yml exec -T caddy caddy reload --config /etc/caddy/Caddyfile
 
 echo "Waiting for health check..."
 MAX_RETRIES=30
